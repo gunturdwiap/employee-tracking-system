@@ -26,7 +26,7 @@
                 {{-- <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" /> --}}
                 <div class="mr-3 text-center text-3xl">🥶</div>
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                    {{ config('app.name')}}
+                    {{ config('app.name') }}
                 </span>
             </a>
 
@@ -64,9 +64,14 @@
 
                 <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
                     <li>
-                        <a href="#"
-                            class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
-                            out</a>
+                        <form action="{{ route('logout') }}" method="post"
+                            class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            @csrf
+                            @method('DELETE')
+                            <button>
+                                Sign out
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>

@@ -1,17 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SessionController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [SessionController::class, 'create'])
+        ->name('login');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+    Route::post('/login', [SessionController::class, 'store']);
+});
 
-Route::get('/', function () {
-    session()->flash('success', 'You are logged in');
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
+    Route::delete('/logout', [SessionController::class, 'destroy'])
+        ->name('logout');
+});
