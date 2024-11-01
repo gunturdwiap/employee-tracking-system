@@ -20,19 +20,21 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body>
-    <div class="antialiased bg-gray-50 dark:bg-gray-900">
 
+<body class="bg-gray-50 dark:bg-gray-900">
 
-        <x-navbar></x-navbar>
+    <x-navbar></x-navbar>
 
-        <x-sidebar></x-sidebar>
+    <!-- Main Content Area -->
+    <section class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
+        {{ $slot }}
+        <!-- Add more content as needed -->
+    </section>
 
-        <main class="p-4 md:ml-64 h-auto pt-20">
-            {{ $slot }}
-        </main>
-        <x-toast></x-toast>
-    </div>
+    <!-- Bottom Navigation Bar -->
+    <x-bottom-navbar></x-bottom-navbar>
+
+    <x-toast></x-toast>
 </body>
 
 </html>

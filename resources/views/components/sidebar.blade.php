@@ -31,7 +31,7 @@
             </li>
 
             <li>
-                <x-nav-link href="" :active="false">
+                <x-nav-link href="{{ route('schedules.index') }}" :active="request()->routeIs('schedules.*')">
                     <x-slot:icon>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">
@@ -44,7 +44,7 @@
             </li>
 
             <li>
-                <x-nav-link href="" :active="false">
+                <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.*')">
                     <x-slot:icon>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6">

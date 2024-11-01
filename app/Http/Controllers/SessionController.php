@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -34,9 +35,11 @@ class SessionController extends Controller
 
         $request->session()->regenerate();
 
-        session()->flash('success', 'You are logged in');
+        if (auth()->user()->role === UserRole::ADMIN) {
+            return redirect()->route('dashboard');
+        }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->route('employee.attendance');
     }
 
     public function destroy(Request $request)
