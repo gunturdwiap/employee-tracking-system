@@ -29,7 +29,19 @@
         <x-sidebar></x-sidebar>
 
         <main class="p-4 md:ml-64 h-auto pt-20">
-            {{ $slot }}
+            <section class="bg-gray-50 dark:bg-gray-900 p-1 sm:p-3">
+                <div class="mx-auto max-w-screen-xl px-1 lg:px-4">
+
+                    {{ $breadcrumb }}
+                    <h2
+                        class="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">
+                        {{ $title }}
+                    </h2>
+
+                    {{ $slot }}
+
+                </div>
+            </section>
         </main>
         <x-toast></x-toast>
     </div>

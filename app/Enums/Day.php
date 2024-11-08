@@ -16,7 +16,7 @@ enum Day: string
 
     public static function options(): array
     {
-        $cases = static::cases();
+        $cases = self::cases();
         $options = [];
         foreach ($cases as $case) {
             $label = $case->name;
@@ -29,5 +29,18 @@ enum Day: string
             ];
         }
         return $options;
+    }
+
+    public static function toArray(): array
+    {
+        return [
+            self::SUNDAY->value => 'SUNDAY',
+            self::MONDAY->value => 'MONDAY',
+            self::TUESDAY->value => 'TUESDAY',
+            self::WEDNESDAY->value => 'WEDNESDAY',
+            self::THURSDAY->value => 'THURSDAY',
+            self::FRIDAY->value => 'FRIDAY',
+            self::SATURDAY->value => 'SATURDAY',
+        ];
     }
 }

@@ -1,7 +1,16 @@
-<x-layouts.app>
+<x-layouts.admin>
     <x-slot:title>
         User Detail
     </x-slot:title>
+
+    <x-slot:breadcrumb>
+        <x-breadcrumb :links="[
+            'Home' => route('dashboard'),
+            'Users' => route('users.index'),
+            'Detail' => '#',
+        ]" />
+    </x-slot:breadcrumb>
+
     <div>
         <div>
             <ul>
@@ -39,11 +48,12 @@
                         </td>
                         <td>
                             <a href="{{ route('schedules.edit', ['user' => $user, 'schedule' => $schedule]) }}">edit</a>
-                            <form action="{{ route('schedules.destroy', ['user' => $user, 'schedule' => $schedule]) }}"
+                            <form onsubmit="return confirm('ykin?')"
+                                action="{{ route('schedules.destroy', ['user' => $user, 'schedule' => $schedule]) }}"
                                 method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button onclick="confirm('ykin km?')">delete</button>
+                                <button>delete</button>
                             </form>
                         </td>
                     </tr>
@@ -52,4 +62,4 @@
         </table>
     </div>
 
-</x-layouts.app>
+</x-layouts.admin>

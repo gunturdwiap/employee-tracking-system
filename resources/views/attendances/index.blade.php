@@ -1,17 +1,17 @@
 <x-layouts.admin>
     <x-slot:title>
-        Users
+        Attendances
     </x-slot:title>
 
     <x-slot:breadcrumb>
         <x-breadcrumb :links="[
             'Home' => route('dashboard'),
-            'Users' => '#',
+            'Attendances' => '#',
         ]" />
     </x-slot:breadcrumb>
 
-    @include('users.partials.user-table', [
-        'users' => $users,
+    @include('attendances.partials.attendance-table', [
+        'attendances' => $attendances,
     ])
 
 </x-layouts.admin>

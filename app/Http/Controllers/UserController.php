@@ -14,9 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        // return response()->json(User::all());
         return view('users.index', [
-            'users' => User::all()
+            'users' => User::paginate(15)
         ]);
     }
 

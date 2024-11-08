@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
+use App\Models\VacationRequest;
 use Illuminate\Http\Request;
 
-class AttendanceController extends Controller
+class VacationRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('attendances.index', [
-            'attendances' => Attendance::with(['user'])->paginate(15)
+        return view('vacation-request.index', [
+            'vacationRequests' => VacationRequest::with(['user'])->paginate(15)
         ]);
     }
 
@@ -36,7 +36,7 @@ class AttendanceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Attendance $attendance)
+    public function show(VacationRequest $vacationRequest)
     {
         //
     }
@@ -44,7 +44,7 @@ class AttendanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Attendance $attendance)
+    public function edit(VacationRequest $vacationRequest)
     {
         //
     }
@@ -52,7 +52,7 @@ class AttendanceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Attendance $attendance)
+    public function update(Request $request, VacationRequest $vacationRequest)
     {
         //
     }
@@ -60,7 +60,7 @@ class AttendanceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Attendance $attendance)
+    public function destroy(VacationRequest $vacationRequest)
     {
         //
     }

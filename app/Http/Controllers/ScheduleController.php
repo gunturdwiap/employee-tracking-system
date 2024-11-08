@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Day;
+use App\Enums\UserRole;
 use App\Models\Schedule;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,10 +16,15 @@ class ScheduleController extends Controller
      */
     public function index()
     {
+        $employees = User::where('role', UserRole::EMPLOYEE)
+            ->with(['schedules'])
+            ->paginate(5);
 
-        // dump(now()->format('l'));
+        /** $employees */
+        // return $employees->first()->schedules->firstWhere('day', Day::FRIDAY);
+
         return view('schedules.index', [
-            'schedules' => Schedule::with(['user'])->get()
+            'employees' => $employees
         ]);
     }
 
@@ -127,7 +133,7 @@ class ScheduleController extends Controller
 
         $schedule->delete();
 
-        return to_route('users.show', ['user' => $user])
+        return back()
             ->with('success', 'Schedule deleted');
     }
 }

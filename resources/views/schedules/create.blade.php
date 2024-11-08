@@ -1,7 +1,15 @@
-<x-layouts.app>
+<x-layouts.admin>
     <x-slot:title>
         Create Schedule
     </x-slot:title>
+
+    <x-slot:breadcrumb>
+        <x-breadcrumb :links="[
+            'Home' => route('dashboard'),
+            'Schedules' => route('schedules.index'),
+            'Create Schedule' => '#',
+        ]" />
+    </x-slot:breadcrumb>
 
     <div>
         <h2>schedule form for {{ $user->name }}</h2>
@@ -15,7 +23,8 @@
                     <select name="day" id="">
                         <option value="" selected disabled></option>
                         @foreach ($day as $day)
-                            <option value="{{ $day['value'] }}">
+                            <option value="{{ $day['value'] }}"
+                                {{ $day['value'] == old('day') ? 'selected' : ($day['value'] == request('day') ? 'selected' : '') }}>
                                 {{ $day['label'] }}
                             </option>
                         @endforeach
@@ -56,4 +65,4 @@
         @endif
     </div>
 
-</x-layouts.app>
+</x-layouts.admin>

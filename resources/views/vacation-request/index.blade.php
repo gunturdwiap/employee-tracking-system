@@ -1,17 +1,17 @@
 <x-layouts.admin>
     <x-slot:title>
-        Users
+        Vacation Requests
     </x-slot:title>
 
     <x-slot:breadcrumb>
         <x-breadcrumb :links="[
             'Home' => route('dashboard'),
-            'Users' => '#',
+            'Vacation Requests' => '#',
         ]" />
     </x-slot:breadcrumb>
 
-    @include('users.partials.user-table', [
-        'users' => $users,
+    @include('vacation-request.partials.vacation-request-table', [
+        'vacationRequests' => $vacationRequests,
     ])
 
 </x-layouts.admin>
