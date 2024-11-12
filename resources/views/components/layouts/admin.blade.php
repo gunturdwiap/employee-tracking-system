@@ -7,7 +7,15 @@
 
     <title>{{ $title ? $title . ' - ' . config('app.name', '') : config('app.name', 'title') }}</title>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
@@ -21,8 +29,7 @@
 </head>
 
 <body>
-    <div class="antialiased bg-gray-50 dark:bg-gray-900">
-
+    <div class="antialiased bg-gray-50 dark:bg-gray-900 min-h-screen">
 
         <x-navbar></x-navbar>
 
@@ -44,6 +51,9 @@
             </section>
         </main>
         <x-toast></x-toast>
+
+        @stack('scripts')
+
     </div>
 </body>
 

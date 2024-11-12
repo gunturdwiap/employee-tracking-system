@@ -36,7 +36,6 @@ class ScheduleController extends Controller
         // return response()->json($user);
         return view('schedules.create', [
             'user' => $user,
-            'day' => Day::options()
         ]);
     }
 
