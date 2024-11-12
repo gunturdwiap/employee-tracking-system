@@ -4,15 +4,16 @@ namespace App\Enums;
 
 use Illuminate\Support\Str;
 
-enum Day: string
+enum Day: int
 {
-    case SUNDAY = 'sunday';
-    case MONDAY = 'monday';
-    case TUESDAY = 'tuesday';
-    case WEDNESDAY = 'wednesday';
-    case THURSDAY = 'thursday';
-    case FRIDAY = 'friday';
-    case SATURDAY = 'saturday';
+    case MONDAY = 1;
+    case TUESDAY = 2;
+    case WEDNESDAY = 3;
+    case THURSDAY = 4;
+    case FRIDAY = 5;
+    case SATURDAY = 6;
+    case SUNDAY = 7;
+
 
     public static function options(): array
     {
@@ -29,18 +30,5 @@ enum Day: string
             ];
         }
         return $options;
-    }
-
-    public static function toArray(): array
-    {
-        return [
-            self::SUNDAY->value => 'SUNDAY',
-            self::MONDAY->value => 'MONDAY',
-            self::TUESDAY->value => 'TUESDAY',
-            self::WEDNESDAY->value => 'WEDNESDAY',
-            self::THURSDAY->value => 'THURSDAY',
-            self::FRIDAY->value => 'FRIDAY',
-            self::SATURDAY->value => 'SATURDAY',
-        ];
     }
 }

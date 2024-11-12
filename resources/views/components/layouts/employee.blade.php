@@ -35,6 +35,8 @@
     <x-bottom-navbar></x-bottom-navbar>
 
     <x-toast></x-toast>
+
+    @stack('scripts')
 </body>
 
 </html>

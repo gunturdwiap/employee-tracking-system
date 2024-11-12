@@ -22,7 +22,7 @@ class AttendanceService
         // Check if a schedule exists for the user today
         return Schedule::query()
             ->where('user_id', $user->id)
-            ->where('day', strtolower(now()->format('l')))
+            ->where('day', now()->dayOfWeekIso)
             ->first();
     }
 
@@ -43,7 +43,7 @@ class AttendanceService
         );
     }
 
-    public function hasCheckedOutToday($user)
+    public function hasCheckedOutToday(User $user)
     {
         return Attendance::query()
             ->where('user_id', $user->id)
@@ -54,19 +54,23 @@ class AttendanceService
 
     public function isWithinCheckOutTime(Carbon $checkOutTime, Schedule $schedule)
     {
+        // 5 min grace period?
         return $checkOutTime->between(
             $schedule->work_start_time->subMinutes(5),
             $schedule->work_end_time->addMinutes(5)
         );
     }
 
-    public function isWithinRadius($lat1, $lon1, $lat2, $lon2, $radius)
+    public function isWithinRadius(float $lat1, float $lon1, float $lat2, float $lon2, int $radius)
     {
         // Convert latitude and longitude from degrees to radians
         $lat1 = deg2rad($lat1);
         $lon1 = deg2rad($lon1);
         $lat2 = deg2rad($lat2);
         $lon2 = deg2rad($lon2);
+
+        // Convert m to km
+        $radius = $radius / 1000;
 
         // Earth radius in kilometers
         $earthRadius = 6371;

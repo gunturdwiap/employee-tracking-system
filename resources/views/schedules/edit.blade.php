@@ -1,38 +1,40 @@
 <x-layouts.admin>
     <x-slot:title>
-        Create Schedule
+        Edit Schedule
     </x-slot:title>
 
     <x-slot:breadcrumb>
         <x-breadcrumb :links="[
             'Home' => route('dashboard'),
             'Schedules' => route('schedules.index'),
-            'Create Schedule' => '#',
+            'Edit Schedule' => '#',
         ]" />
     </x-slot:breadcrumb>
 
-    <form action="{{ route('schedules.store', ['user' => $user]) }}" method="POST">
+    <form action="{{ route('schedules.update', ['user' => $schedule->user, 'schedule' => $schedule]) }}" method="POST">
         @csrf
+        @method('PUT')
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div class="sm:col-span-2">
                 <x-forms.label for="name">User
                     Name
                 </x-forms.label>
-                <x-forms.input type="text" name="name" id="name" value="{{ $user->name }}" disabled required />
+                <x-forms.input type="text" name="name" id="name" value="{{ $schedule->user->name }}" disabled
+                    required />
             </div>
             <div class="w-full">
                 <x-forms.label for="work_start_time">Work Start Time
                 </x-forms.label>
-                <x-forms.input value="{{ old('work_start_time') }}" type="time" name="work_start_time"
-                    id="work_start_time" placeholder="Work Start Time" required />
+                <x-forms.input value="{{ $schedule->work_start_time->format('H:i') }}" type="time"
+                    name="work_start_time" id="work_start_time" placeholder="Work Start Time" required />
                 <x-forms.error name="work_start_time"></x-forms.error>
 
             </div>
             <div class="w-full">
                 <x-forms.label for="work_end_time">Work End Time
                 </x-forms.label>
-                <x-forms.input value="{{ old('work_end_time') }}" type="time" name="work_end_time" id="work_end_time"
-                    placeholder="Work End Time" required />
+                <x-forms.input value="{{ $schedule->work_end_time->format('H:i') }}" type="time" name="work_end_time"
+                    id="work_end_time" placeholder="Work End Time" required />
                 <x-forms.error name="work_end_time"></x-forms.error>
             </div>
             <div>
@@ -42,7 +44,7 @@
                     <option selected disabled>Select day</option>
                     @foreach (App\Enums\Day::options() as $day)
                         <option value="{{ $day['value'] }}"
-                            {{ $day['value'] == old('day') ? 'selected' : ($day['value'] == request('day') ? 'selected' : '') }}>
+                            {{ $day['value'] == $schedule->day->value ? 'selected' : '' }}>
                             {{ $day['label'] }}
                         </option>
                     @endforeach
@@ -52,7 +54,7 @@
             </div>
             <div>
                 <x-forms.label for="radius">Radius (m)</x-forms.label>
-                <x-forms.input value="{{ old('radius') }}" type="number" name="radius" id="radius"
+                <x-forms.input value="{{ $schedule->radius }}" type="number" name="radius" id="radius"
                     placeholder="100" required />
                 <x-forms.error name="radius"></x-forms.error>
 
@@ -68,18 +70,21 @@
                 </div>
             </div>
 
-            <input type="hidden" name="latitude">
-            <input type="hidden" name="longitude">
+            <input type="hidden" name="latitude" value="{{ $schedule->latitude }}">
+            <input type="hidden" name="longitude" value="{{ $schedule->longitude }}">
         </div>
         <button type="submit"
             class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
-            Add schedule
+            Edit schedule
         </button>
     </form>
 
     @push('scripts')
         <script>
-            const map = L.map('map').setView([51.505, -0.09], 13);
+            const latitudeInput = document.querySelector('input[name="latitude"]');
+            const longitudeInput = document.querySelector('input[name="longitude"]');
+            const map = L.map('map').setView([latitudeInput.value, longitudeInput.value], 13);
+
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -89,14 +94,27 @@
             let marker;
             let circle;
 
+            marker = L.marker([latitudeInput.value, longitudeInput.value]).addTo(map);
+            const radius = document.getElementById('radius').value;
+
+            // Add a circle based on the radius
+            if (radius) {
+                circle = L.circle([latitudeInput.value, longitudeInput.value], {
+                    color: 'blue',
+                    fillColor: '#30f',
+                    fillOpacity: 0.5,
+                    radius: radius // radius in meters
+                }).addTo(map);
+            }
+
             // Event listener for map click
             map.on('click', function(e) {
                 const lat = e.latlng.lat;
                 const lng = e.latlng.lng;
 
                 // Set the hidden input values
-                document.querySelector('input[name="latitude"]').value = lat;
-                document.querySelector('input[name="longitude"]').value = lng;
+                latitudeInput.value = lat;
+                longitudeInput.value = lng;
 
                 // Remove existing marker and circle if they exist
                 if (marker) {
@@ -108,9 +126,6 @@
 
                 // Add a new marker
                 marker = L.marker([lat, lng]).addTo(map);
-
-                // Get radius from input
-                const radius = document.getElementById('radius').value;
 
                 // Add a circle based on the radius
                 if (radius) {

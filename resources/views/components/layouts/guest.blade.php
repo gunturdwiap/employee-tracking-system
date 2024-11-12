@@ -20,7 +20,10 @@
 
 <body>
 
-    {{ $slot }}
+    <section class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+        {{ $slot }}
+    </section>
+
     <x-toast></x-toast>
 </body>
 

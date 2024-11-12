@@ -60,9 +60,9 @@ class EmployeeAttendanceController extends Controller
             'longitude' => ['required', 'numeric'],
         ]);
 
-        // if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
-        //     return to_route('employee.attendance')->with('danger', 'Invalid check in location');
-        // }
+        if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
+            return to_route('employee.attendance')->with('danger', 'Invalid check in location');
+        }
 
         $user->attendances()->create([
             'date' => $checkInTime->format('Y-m-d'),
@@ -101,9 +101,9 @@ class EmployeeAttendanceController extends Controller
             'longitude' => ['required', 'numeric'],
         ]);
 
-        // if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
-        //     return to_route('employee.attendance')->with('danger', 'Invalid check out location');
-        // }
+        if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
+            return to_route('employee.attendance')->with('danger', 'Invalid check out location');
+        }
 
         $checkIn->update([
             'check_out_time' => $checkOutTime->format('H:i')

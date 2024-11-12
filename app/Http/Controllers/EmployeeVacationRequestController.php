@@ -32,16 +32,10 @@ class EmployeeVacationRequestController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'start' => ['required', 'date', 'after:today'],
-            'end' => ['required', 'date', 'after:today'],
+            'start' => ['required', 'date', 'after:today', 'before:end'],
+            'end' => ['required', 'date', 'after:today', 'after:start'],
             'reason' => ['nullable', 'max:255']
         ]);
-
-        // Check if start < end
-        // Jir lah
-        if (Carbon::parse($attributes['start'])->gt(Carbon::parse($attributes['end']))) {
-            throw ValidationException::withMessages(['start' => 'Start date must be less than end date']);
-        }
 
         $request->user()->vacationRequests()->create($attributes);
 

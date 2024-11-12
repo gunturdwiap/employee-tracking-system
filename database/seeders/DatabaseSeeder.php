@@ -32,9 +32,6 @@ class DatabaseSeeder extends Seeder
 
         $users = collect(User::factory(10)->create())->add($orang);
 
-        // Define the days of the week assuming 'day' is an ENUM type on Schedule model
-        // $daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-
         // For each user, create schedules for each day of the week
         foreach ($users as $user) {
             foreach (Day::cases() as $day) {

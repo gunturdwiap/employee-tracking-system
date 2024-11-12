@@ -49,9 +49,14 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        // return response()->json($user->load(['schedules', 'attendances']));
+        $user = $user->load([
+            'schedules' => function ($query) {
+                $query->orderBy('day'); // Sort schedules by the 'day' column
+            }
+        ]);
+
         return view('users.show', [
-            'user' => $user->load(['schedules'])
+            'user' => $user
         ]);
     }
 

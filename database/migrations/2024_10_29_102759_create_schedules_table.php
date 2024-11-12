@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->time('work_start_time');
             $table->time('work_end_time');
-            $table->enum('day', ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']);
+            $table->tinyInteger('day');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 10, 8);
             $table->integer('radius');

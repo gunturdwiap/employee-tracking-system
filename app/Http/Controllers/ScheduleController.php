@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Day;
+use Carbon\Carbon;
+use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\Schedule;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class ScheduleController extends Controller
 {
@@ -20,9 +22,6 @@ class ScheduleController extends Controller
             ->with(['schedules'])
             ->paginate(5);
 
-        /** $employees */
-        // return $employees->first()->schedules->firstWhere('day', Day::FRIDAY);
-
         return view('schedules.index', [
             'employees' => $employees
         ]);
@@ -33,10 +32,8 @@ class ScheduleController extends Controller
      */
     public function create(User $user)
     {
-        // return response()->json($user);
         return view('schedules.create', [
             'user' => $user,
-            'day' => Day::options()
         ]);
     }
 
@@ -46,8 +43,8 @@ class ScheduleController extends Controller
     public function store(Request $request, User $user)
     {
         $attributes = $request->validate([
-            'work_start_time' => ['required'],
-            'work_end_time' => ['required'],
+            'work_start_time' => ['required', 'date_format:H:i', 'before:work_end_time'],
+            'work_end_time' => ['required', 'date_format:H:i', 'after:work_start_time'],
             'day' => [
                 'required',
                 Rule::enum(Day::class),
@@ -56,9 +53,9 @@ class ScheduleController extends Controller
                         ->where('day', $request->day);
                 })
             ],
-            'latitude' => ['required'],
-            'longitude' => ['required'],
-            'radius' => ['required', 'numeric', ''],
+            'latitude' => ['required', 'numeric'],
+            'longitude' => ['required', 'numeric'],
+            'radius' => ['required', 'numeric'],
         ], [
             'day.unique' => 'A schedule already exists for this employee on the selected day.',
         ]);
@@ -86,7 +83,9 @@ class ScheduleController extends Controller
             abort(404, 'Schedule not found for this user');
         }
 
-        return response()->json($schedule);
+        return view('schedules.edit', [
+            'schedule' => $schedule->load('user')
+        ]);
     }
 
     /**
@@ -99,8 +98,8 @@ class ScheduleController extends Controller
         }
 
         $attributes = $request->validate([
-            'work_start_time' => ['required'],
-            'work_end_time' => ['required'],
+            'work_start_time' => ['required', 'date_format:H:i'],
+            'work_end_time' => ['required', 'date_format:H:i'],
             'day' => [
                 'required',
                 Rule::enum(Day::class),
@@ -109,8 +108,8 @@ class ScheduleController extends Controller
                         ->where('day', $request->day);
                 })->ignore($schedule->id)
             ],
-            'latitude' => ['required'],
-            'longitude' => ['required'],
+            'latitude' => ['required', 'numeric'],
+            'longitude' => ['required', 'numeric'],
             'radius' => ['required', 'numeric'],
         ], [
             'day.unique' => 'A schedule already exists for this employee on the selected day.',

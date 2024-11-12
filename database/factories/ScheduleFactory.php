@@ -20,7 +20,7 @@ class ScheduleFactory extends Factory
         return [
             'work_start_time' => now(),
             'work_end_time' => now()->addHours(8),
-            'day' => strtolower(fake()->dayOfWeek),
+            'day' => rand(1, 7),
             'latitude' => fake()->latitude,
             'longitude' => fake()->longitude,
             'radius' => rand(100, 500),
