@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\VacationRequest;
-use Carbon\Carbon;
-use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use App\Enums\VacationRequestStatus;
 
 class EmployeeVacationRequestController extends Controller
 {
@@ -15,7 +13,11 @@ class EmployeeVacationRequestController extends Controller
      */
     public function index()
     {
-        //
+        $vacationRequests = VacationRequest::query()
+            ->where('user_id', auth()->id())
+            ->paginate(15);
+
+        return $vacationRequests;
     }
 
     /**
@@ -37,6 +39,20 @@ class EmployeeVacationRequestController extends Controller
             'reason' => ['nullable', 'max:255']
         ]);
 
+        // Check if the new vacation request overlaps with any existing approved vacation
+        $existingRequest = VacationRequest::where('user_id', $request->user()->id)
+            ->where('status', VacationRequestStatus::APPROVED)
+            ->where(function ($query) use ($request) {
+                $query->whereDate('start', '<=', $request->end)   // Existing vacation starts before or on the new request's end date
+                    ->whereDate('end', '>=', $request->start);  // Existing vacation ends after or on the new request's start date
+            })
+            ->exists();
+
+
+        if ($existingRequest) {
+            return back()->with('danger', 'You already have an approved vacation request for this day.');
+        }
+
         $request->user()->vacationRequests()->create($attributes);
 
         return to_route('employee.vacation')->with('success', 'Vacation request created');
@@ -47,7 +63,9 @@ class EmployeeVacationRequestController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        //check if vacation request exist for the current user
+
+        // return vacation request for the current user
     }
 
     /**
@@ -55,7 +73,11 @@ class EmployeeVacationRequestController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //check if vacation request exist for the current user
+
+        // update
+
+        // return vacation request for the current user
     }
 
     /**
@@ -63,6 +85,12 @@ class EmployeeVacationRequestController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //check if vacation request exist for the current user
+
+        // check vacation request status, proceed if not yet approved
+
+        // delete
+
+        // return
     }
 }

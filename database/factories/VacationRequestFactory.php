@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enums\Enums\VacationRequestStatus;
+use App\Enums\VacationRequestStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

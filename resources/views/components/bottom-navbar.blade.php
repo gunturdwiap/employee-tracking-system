@@ -25,7 +25,7 @@
         </x-bottom-navbar-button>
 
         <!-- Vacation Request Button -->
-        <x-bottom-navbar-button href="{{ route('employee.vacation') }}" :active="false">
+        <x-bottom-navbar-button href="{{ route('employee.vacation') }}" :active="request()->routeIs('employee.vacation')">
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
