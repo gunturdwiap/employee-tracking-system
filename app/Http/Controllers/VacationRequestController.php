@@ -38,7 +38,7 @@ class VacationRequestController extends Controller
      */
     public function show(VacationRequest $vacationRequest)
     {
-        //
+        return $vacationRequest;
     }
 
     /**
@@ -46,7 +46,7 @@ class VacationRequestController extends Controller
      */
     public function edit(VacationRequest $vacationRequest)
     {
-        //
+        return $vacationRequest;
     }
 
     /**
@@ -62,6 +62,8 @@ class VacationRequestController extends Controller
      */
     public function destroy(VacationRequest $vacationRequest)
     {
-        //
+        $vacationRequest->delete();
+
+        return back()->with('success', 'Vacation request deleted');
     }
 }

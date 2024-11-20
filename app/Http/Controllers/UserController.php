@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserRole;
 use App\Models\User;
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -50,8 +51,8 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user = $user->load([
-            'schedules' => function ($query) {
-                $query->orderBy('day'); // Sort schedules by the 'day' column
+            'schedules' => function (Builder $query) {
+                $query->orderBy('day');
             }
         ]);
 

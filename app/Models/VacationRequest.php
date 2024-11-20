@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\Enums\VacationRequestStatus;
+use App\Enums\VacationRequestStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,8 +16,8 @@ class VacationRequest extends Model
     protected function casts()
     {
         return [
-            'start' => 'datetime:Y-m-d',
-            'end' => 'datetime:Y-m-d',
+            'start' => 'date:Y-m-d',
+            'end' => 'date:Y-m-d',
             'status' => VacationRequestStatus::class
         ];
     }

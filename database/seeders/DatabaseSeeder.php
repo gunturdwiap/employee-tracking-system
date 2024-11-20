@@ -44,7 +44,10 @@ class DatabaseSeeder extends Seeder
             // Create random vacation requests for each user
             VacationRequest::factory(rand(1, 3))->create([
                 'user_id' => $user->id,
+                'start' => now()->subDay()->toDateString(), // 'Y-m-d' format
+                'end' => now()->addDays(5)->toDateString(),  // 3 hours wasted cause sqlite ...
             ]);
+
 
             // Create random attendance records for each user
             // Attendance::factory(rand(5, 10))->create([

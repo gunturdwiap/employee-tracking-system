@@ -26,10 +26,10 @@
     <x-navbar></x-navbar>
 
     <!-- Main Content Area -->
-    <section class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
+    <section class="bg-gray-50 dark:bg-gray-900 min-h-screen pt-16 pb-16 flex items-center justify-center">
         {{ $slot }}
-        <!-- Add more content as needed -->
     </section>
+
 
     <!-- Bottom Navigation Bar -->
     <x-bottom-navbar></x-bottom-navbar>
