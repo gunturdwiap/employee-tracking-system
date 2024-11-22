@@ -125,6 +125,7 @@
                     <th scope="col" class="px-4 py-3">check_in_time</th>
                     <th scope="col" class="px-4 py-3">check_out_time</th>
                     <th scope="col" class="px-4 py-3">status</th>
+                    <th scope="col" class="px-4 py-3">verification_status</th>
                     <th scope="col" class="px-4 py-3">
                         <span class="sr-only">Actions</span>
                     </th>
@@ -140,10 +141,42 @@
                         <td class="px-4 py-3">{{ $attendance->check_in_time?->format('H:i') }}</td>
                         <td class="px-4 py-3">{{ $attendance->check_out_time?->format('H:i') }}</td>
                         <td class="px-4 py-3">{{ $attendance->status }}</td>
+                        <td class="px-4 py-3">{{ $attendance->verification_status }}</td>
                         <td class="px-4 py-3">
 
                             <div class="inline-flex rounded-md shadow-sm" role="group">
-                                {{-- <a href="{{ route('users.show', ['user' => $attendance->user]) }}" type="button"
+                                <form action="{{ route('attendances.verify', ['attendance' => $attendance]) }}"
+                                    method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="verification_status" value="approved">
+                                    <button
+                                        class="inline-flex items-center p-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <svg class="text-green-600 dark:text-green-500 w-6 h-6"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                    </button>
+                                </form>
+                                <form action="{{ route('attendances.verify', ['attendance' => $attendance]) }}"
+                                    method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="verification_status" value="rejected">
+                                    <button
+                                        class="inline-flex items-center p-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        <svg class="text-red-600 dark:text-red-500 w-6 h-6"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+                                    </button>
+                                </form>
+                                <a href="{{ route('attendances.show', ['attendance' => $attendance]) }}"
+                                    type="button"
                                     class="p-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-primary-500 dark:focus:text-white">
                                     <svg class="text-white-600 dark:text-white-500 w-6 h-6"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -153,18 +186,9 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     </svg>
-                                </a> --}}
-                                {{-- <a href="{{ route('attendances.show', ['attendance' => $attendance]) }}" type="button"
-                                    class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-primary-500 dark:focus:text-white">
-                                    Settings
                                 </a>
-                                <a href="{{ route('attendances.show', ['attendance' => $attendance]) }}" type="button"
-                                    class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-2 focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-primary-500 dark:focus:text-white">
-                                    Messages
-                                </a> --}}
                             </div>
 
-                            {{-- href="{{ route('attendances.show', ['attendance' => $attendance]) }}" --}}
 
                         </td>
                     </tr>

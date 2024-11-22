@@ -48,6 +48,7 @@ class UpdateVacationAttendance extends Command
                     'status' => AttendanceStatus::VACATION, // Set attendance status to 'Vacation'
                     'check_in_time' => null, // Clear check-in and check-out times
                     'check_out_time' => null,
+                    'photo' => null,
                 ]
             );
         }

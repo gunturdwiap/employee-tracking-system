@@ -23,10 +23,16 @@
                 Jarak dari lokasi :
             </p>
 
+            <x-forms.error name="photo"></x-forms.error>
+            <x-forms.error name="latitude"></x-forms.error>
+            <x-forms.error name="longitude"></x-forms.error>
+            <video id="videoElement" autoplay playsinline></video>
+
             <form action="{{ route('checkin') }}" method="post" id="checkinForm">
                 @csrf
                 <input type="hidden" name="latitude" id="latitudeCheckin">
                 <input type="hidden" name="longitude" id="longitudeCheckin">
+                <input type="hidden" name="photo" id="photoCheckin">
                 <button
                     class="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                     Presensi mulai
@@ -38,6 +44,7 @@
                 @method('PUT')
                 <input type="hidden" name="latitude" id="latitudeCheckout">
                 <input type="hidden" name="longitude" id="longitudeCheckout">
+                <input type="hidden" name="photo" id="photoCheckout">
                 <button
                     class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                     Presensi selesai
@@ -59,6 +66,61 @@
             } else {
                 alert("Geolocation is not supported by this browser.");
             }
+        </script>
+
+        <script>
+            // Function to capture the photo
+            function capturePhoto() {
+                const canvas = document.createElement('canvas');
+                const video = document.getElementById('videoElement');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                return canvas.toDataURL('image/jpeg', 0.8); // Capture the photo and return the Base64 string
+            }
+
+            // Add submit listeners to forms
+            document.getElementById('checkinForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const photoInput = document.getElementById('photoCheckin'); // Get the existing hidden input field
+
+                const capturedPhoto = capturePhoto();
+
+                if (capturedPhoto) {
+                    photoInput.value = capturedPhoto; // Update the existing photo input with the captured photo
+                }
+
+                // Submit the form
+                this.submit();
+            });
+
+            document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const photoInput = document.getElementById('photoCheckout'); // Get the existing hidden input field
+
+                const capturedPhoto = capturePhoto();
+
+                if (capturedPhoto) {
+                    photoInput.value = capturedPhoto; // Update the existing photo input with the captured photo
+                }
+
+                // Submit the form
+                this.submit();
+            });
+        </script>
+        <script>
+            // Access the user's camera
+            navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                .then(function(stream) {
+                    const video = document.getElementById('videoElement');
+                    video.srcObject = stream;
+                })
+                .catch(function(error) {
+                    alert('Error accessing camera: ' + error.message);
+                });
         </script>
     @endpush
 </x-layouts.employee>

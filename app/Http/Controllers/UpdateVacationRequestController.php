@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Enums\VacationRequestStatus;
+use App\Enums\VacationRequestStatus;
 use Illuminate\Http\Request;
 use App\Models\VacationRequest;
 use Illuminate\Validation\Rule;
@@ -12,7 +12,7 @@ class UpdateVacationRequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, VacationRequest $vacationRequest)
+    public function __invoke(Request $request, VacationRequest $vacationRequest)
     {
         $request->validate([
             'status' => [

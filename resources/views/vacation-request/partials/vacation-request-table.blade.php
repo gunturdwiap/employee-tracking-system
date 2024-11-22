@@ -143,7 +143,7 @@
 
                             <div class="inline-flex rounded-md shadow-sm" role="group">
                                 <form
-                                    action="{{ route('vacation-requests.update-status', ['vacationRequest' => $vacationRequest]) }}"
+                                    action="{{ route('vacation-requests.update-status', ['vacation_request' => $vacationRequest]) }}"
                                     method="post">
                                     @csrf
                                     @method('PUT')
@@ -159,7 +159,7 @@
                                     </button>
                                 </form>
                                 <form
-                                    action="{{ route('vacation-requests.update-status', ['vacationRequest' => $vacationRequest]) }}"
+                                    action="{{ route('vacation-requests.update-status', ['vacation_request' => $vacationRequest]) }}"
                                     method="post">
                                     @csrf
                                     @method('PUT')

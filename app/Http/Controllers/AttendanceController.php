@@ -38,7 +38,7 @@ class AttendanceController extends Controller
      */
     public function show(Attendance $attendance)
     {
-        //
+        return view('attendances.show', ['attendance' => $attendance]);
     }
 
     /**

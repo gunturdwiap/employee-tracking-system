@@ -16,6 +16,9 @@ return new class extends Migration {
             $table->date('date');
             $table->time('check_in_time')->nullable();
             $table->time('check_out_time')->nullable();
+            $table->string('check_in_photo')->nullable();
+            $table->string('check_out_photo')->nullable();
+            $table->enum('verification_status', ['pending', 'approved', 'rejected']);
             $table->enum('status', ['on_time', 'late', 'vacation', 'absent']);
             $table->timestamps();
 

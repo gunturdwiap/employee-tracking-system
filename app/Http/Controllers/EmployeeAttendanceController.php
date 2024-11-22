@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AttendanceVerificationStatus;
 use App\Models\Schedule;
 use App\Models\Attendance;
-use App\Services\AttendanceService;
 use Illuminate\Http\Request;
+use App\Services\PhotoService;
 use App\Enums\AttendanceStatus;
+use App\Services\AttendanceService;
 
 class EmployeeAttendanceController extends Controller
 {
@@ -54,23 +56,31 @@ class EmployeeAttendanceController extends Controller
             return to_route('employee.attendance')->with('danger', 'Invalid check in time');
         }
 
-
         $attributes = $request->validate([
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
+            'photo' => ['required', 'string']
         ]);
 
-        if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
-            return to_route('employee.attendance')->with('danger', 'Invalid check in location');
+        // if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
+        //     return to_route('employee.attendance')->with('danger', 'Invalid check in location');
+        // }
+
+        try {
+            $imageName = PhotoService::saveBase64Image($request->input('photo'), 'checkin');
+
+            $user->attendances()->create([
+                'date' => $checkInTime->format('Y-m-d'),
+                'check_in_time' => $checkInTime->format('H:i'),
+                'status' => AttendanceStatus::ON_TIME, //TODO
+                'verification_status' => AttendanceVerificationStatus::PENDING,
+                'check_in_photo' => $imageName
+            ]);
+
+            return to_route('employee.attendance')->with('success', 'Check in success');
+        } catch (\Exception $e) {
+            return to_route('employee.attendance')->with('danger', 'Check in failed : ' . $e->getMessage());
         }
-
-        $user->attendances()->create([
-            'date' => $checkInTime->format('Y-m-d'),
-            'check_in_time' => $checkInTime->format('H:i'),
-            'status' => AttendanceStatus::ON_TIME, //TODO
-        ]);
-
-        return to_route('employee.attendance')->with('success', 'Check in success');
     }
 
     /**
@@ -99,16 +109,26 @@ class EmployeeAttendanceController extends Controller
         $attributes = $request->validate([
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
+            'photo' => ['required', 'string'],
         ]);
 
-        if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
-            return to_route('employee.attendance')->with('danger', 'Invalid check out location');
+        // if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
+        //     return to_route('employee.attendance')->with('danger', 'Invalid check out location');
+        // }
+
+        try {
+            $imageName = PhotoService::saveBase64Image($request->input('photo'), 'checkout');
+
+            $checkIn->update([
+                'check_out_time' => $checkOutTime->format('H:i'),
+                'check_out_photo' => $imageName
+            ]);
+
+            return to_route('employee.attendance')->with('success', 'Check out success');
+        } catch (\Exception $e) {
+            return to_route('employee.attendance')->with('danger', 'Check out failed : ' . $e->getMessage());
         }
 
-        $checkIn->update([
-            'check_out_time' => $checkOutTime->format('H:i')
-        ]);
 
-        return to_route('employee.attendance')->with('success', 'Check out success');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\Day;
+use App\Http\Controllers\VerifyAttendanceController;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +24,7 @@ Route::delete('/logout', [SessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
+// Admin
 Route::middleware(['auth', 'can:access-admin-panel'])
     ->prefix('/admin')
     ->group(function () {
@@ -41,15 +42,21 @@ Route::middleware(['auth', 'can:access-admin-panel'])
         Route::resource('/users/{user}/schedules', ScheduleController::class)
             ->except(['index', 'show']);
 
-        Route::resource('attendances', AttendanceController::class);
+        Route::resource('/attendances', AttendanceController::class);
 
         Route::resource('/vacation-requests', VacationRequestController::class);
 
         // TODO: edit nanti
-        Route::put('/vacation-requests/{vacationRequest}/update-status', [UpdateVacationRequestController::class, 'update'])
+        Route::put('/vacation-requests/{vacation_request}/update-status', UpdateVacationRequestController::class)
             ->name('vacation-requests.update-status');
+
+        // Verificator
+        Route::put('/attendances/{attendance}/verification', VerifyAttendanceController::class)
+            ->name('attendances.verify');
+
     });
 
+// Employee
 Route::middleware(['auth', 'can:access-employee-menu'])
     ->group(function () {
         Route::redirect('/', '/attendance');

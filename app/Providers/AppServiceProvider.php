@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::preventLazyLoading(!app()->isProduction());
+        Model::preventLazyLoading();
 
         Gate::define('access-admin-panel', function (User $user) {
             return $user->role === UserRole::ADMIN;
