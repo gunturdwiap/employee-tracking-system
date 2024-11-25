@@ -62,9 +62,9 @@ class EmployeeAttendanceController extends Controller
             'photo' => ['required', 'string']
         ]);
 
-        // if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
-        //     return to_route('employee.attendance')->with('danger', 'Invalid check in location');
-        // }
+        if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
+            return to_route('employee.attendance')->with('danger', 'Invalid check in location');
+        }
 
         try {
             $imageName = PhotoService::saveBase64Image($request->input('photo'), 'checkin');

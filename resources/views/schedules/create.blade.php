@@ -79,7 +79,7 @@
 
     @push('scripts')
         <script>
-            const map = L.map('map').setView([51.505, -0.09], 13);
+            const map = L.map('map').setView([-8.79883, 115.161343], 20);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
