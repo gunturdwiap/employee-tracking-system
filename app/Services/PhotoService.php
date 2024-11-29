@@ -19,6 +19,7 @@ class PhotoService
             }
 
             $imageName = $prefix . '_' . time() . '.jpg';
+
             Storage::disk('public')->put('photos/' . $imageName, $decodedImage);
 
             return $imageName;

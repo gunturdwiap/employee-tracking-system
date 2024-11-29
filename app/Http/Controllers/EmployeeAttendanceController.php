@@ -67,7 +67,7 @@ class EmployeeAttendanceController extends Controller
         }
 
         try {
-            $imageName = PhotoService::saveBase64Image($request->input('photo'), 'checkin');
+            $imageName = PhotoService::saveBase64Image($request->input('photo'), 'checkin_'.$user->id);
 
             $user->attendances()->create([
                 'date' => $checkInTime->format('Y-m-d'),
@@ -117,7 +117,7 @@ class EmployeeAttendanceController extends Controller
         // }
 
         try {
-            $imageName = PhotoService::saveBase64Image($request->input('photo'), 'checkout');
+            $imageName = PhotoService::saveBase64Image($request->input('photo'), 'checkout_'.$user->id);
 
             $checkIn->update([
                 'check_out_time' => $checkOutTime->format('H:i'),
