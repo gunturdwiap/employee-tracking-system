@@ -87,7 +87,7 @@ services:
     working_dir: /var/www/html
     entrypoint: [ 'sh', '-c', 'npm install && npm run dev -- --host' ]
     environment:
-      HOST: "192.168.90.54"
+      HOST: "localhost"
     networks:
       - laravel
 
@@ -104,7 +104,7 @@ services:
       - mysql
       - composer
       - php
-    entrypoint: [ 'sh', '-c', 'php /var/www/html/artisan migrate && php /var/www/html/artisan db:seed 2>&1' ]
+    entrypoint: [ 'sh', '-c', 'sleep 2 && php /var/www/html/artisan migrate:fresh && php /var/www/html/artisan db:seed 2>&1' ]
     networks:
       - laravel
 
