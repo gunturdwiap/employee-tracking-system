@@ -52,22 +52,22 @@ class EmployeeAttendanceController extends Controller
         }
 
         $checkInTime = now();
-        if (!$this->attendanceService->isWithinCheckInTime($checkInTime, $schedule)) {
+        if (!$this->attendanceService->isWithinCheckInTime($schedule->work_start_time, $checkInTime)) {
             return to_route('employee.attendance')->with('danger', 'Invalid check in time');
         }
 
-        $attributes = $request->validate([
+        $request->validate([
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
             'photo' => ['required', 'string']
         ]);
 
-        // if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
-        //     return to_route('employee.attendance')->with('danger', 'Invalid check in location');
-        // }
+        if (!$this->attendanceService->isWithinRadius($$request->latitude, $request->longitude, $schedule->latitude, $schedule->longitude, $schedule->radius)) {
+            return to_route('employee.attendance')->with('danger', 'Invalid check in location');
+        }
 
         try {
-            $imageName = PhotoService::saveBase64Image($request->input('photo'), 'checkin');
+            $imageName = PhotoService::saveBase64Image($request->photo, 'checkin');
 
             $user->attendances()->create([
                 'date' => $checkInTime->format('Y-m-d'),
@@ -102,22 +102,22 @@ class EmployeeAttendanceController extends Controller
         }
 
         $checkOutTime = now();
-        if (!$this->attendanceService->isWithinCheckOutTime($checkOutTime, $schedule)) {
+        if (!$this->attendanceService->isWithinCheckOutTime($schedule->work_end_time, $checkOutTime)) {
             return to_route('employee.attendance')->with('danger', 'Invalid check out time');
         }
 
-        $attributes = $request->validate([
+        $request->validate([
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
             'photo' => ['required', 'string'],
         ]);
 
-        // if (!$this->attendanceService->isWithinRadius($attributes['latitude'], $attributes['longitude'], $schedule->latitude, $schedule->longitude, $schedule->radius)) {
-        //     return to_route('employee.attendance')->with('danger', 'Invalid check out location');
-        // }
+        if (!$this->attendanceService->isWithinRadius($request->latitude, $request->longitude, $schedule->latitude, $schedule->longitude, $schedule->radius)) {
+            return to_route('employee.attendance')->with('danger', 'Invalid check out location');
+        }
 
         try {
-            $imageName = PhotoService::saveBase64Image($request->input('photo'), 'checkout');
+            $imageName = PhotoService::saveBase64Image($request->photo, 'checkout');
 
             $checkIn->update([
                 'check_out_time' => $checkOutTime->format('H:i'),
@@ -128,7 +128,5 @@ class EmployeeAttendanceController extends Controller
         } catch (\Exception $e) {
             return to_route('employee.attendance')->with('danger', 'Check out failed : ' . $e->getMessage());
         }
-
-
     }
 }

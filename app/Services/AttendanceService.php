@@ -9,6 +9,8 @@ use Carbon\Carbon;
 
 class AttendanceService
 {
+    const GRACE_PERIOD = 30; // 30 Min
+
     /**
      * Create a new class instance.
      */
@@ -19,7 +21,6 @@ class AttendanceService
 
     public function hasScheduleToday(User $user)
     {
-        // Check if a schedule exists for the user today
         return Schedule::query()
             ->where('user_id', $user->id)
             ->where('day', now()->dayOfWeekIso)
@@ -28,18 +29,17 @@ class AttendanceService
 
     public function hasCheckedInToday(User $user)
     {
-        // Check if the user already checked in today
         return Attendance::query()
             ->where('user_id', $user->id)
             ->whereDate('created_at', now()->toDate())
             ->first();
     }
 
-    public function isWithinCheckInTime(Carbon $checkInTime, Schedule $schedule)
+    public function isWithinCheckInTime(Carbon $startTime, Carbon $checkInTime)
     {
         return $checkInTime->between(
-            $schedule->work_start_time->subMinutes(5),
-            $schedule->work_end_time->addMinutes(5)
+            $startTime->subMinutes(self::GRACE_PERIOD),
+            $startTime->addMinutes(self::GRACE_PERIOD)
         );
     }
 
@@ -52,12 +52,11 @@ class AttendanceService
             ->exists();
     }
 
-    public function isWithinCheckOutTime(Carbon $checkOutTime, Schedule $schedule)
+    public function isWithinCheckOutTime(Carbon $endTime, Carbon $checkOutTime)
     {
-        // 5 min grace period?
         return $checkOutTime->between(
-            $schedule->work_start_time->subMinutes(5),
-            $schedule->work_end_time->addMinutes(5)
+            $endTime->subMinutes(self::GRACE_PERIOD),
+            $endTime->addMinutes(self::GRACE_PERIOD)
         );
     }
 
@@ -91,19 +90,5 @@ class AttendanceService
 
         // Check if the distance is within the specified radius
         return $distance <= $radius;
-
-
-        // Example usage:
-        // $referenceLat = 40.730610;  // Replace with reference latitude
-        // $referenceLon = -73.935242; // Replace with reference longitude
-        // $targetLat = 40.730700;     // Replace with target latitude
-        // $targetLon = -73.935300;    // Replace with target longitude
-        // $radius = 0.5; // Radius in kilometers (e.g., 500 meters)
-
-        // if (isWithinRadius($referenceLat, $referenceLon, $targetLat, $targetLon, $radius)) {
-        //     echo "The point is within the radius.";
-        // } else {
-        //     echo "The point is outside the radius.";
-        // }
     }
 }
