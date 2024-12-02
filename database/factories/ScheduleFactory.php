@@ -21,8 +21,8 @@ class ScheduleFactory extends Factory
             'work_start_time' => now(),
             'work_end_time' => now()->addHours(8),
             'day' => rand(1, 7),
-            'latitude' => fake()->latitude,
-            'longitude' => fake()->longitude,
+            'latitude' => -8.79883,
+            'longitude' => 115.161343,
             'radius' => rand(100, 500),
             'user_id' => User::factory()
         ];

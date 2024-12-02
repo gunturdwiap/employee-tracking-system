@@ -34,8 +34,8 @@ class EmployeeVacationRequestController extends Controller
     public function store(Request $request)
     {
         $attributes = $request->validate([
-            'start' => ['required', 'date', 'after:today', 'before:end'],
-            'end' => ['required', 'date', 'after:today', 'after:start'],
+            'start' => ['required', 'date', 'after:today', 'before_or_equal:end'],
+            'end' => ['required', 'date', 'after:today', 'after_or_equal:start'],
             'reason' => ['nullable', 'max:255']
         ]);
 
