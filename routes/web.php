@@ -1,28 +1,20 @@
 <?php
 
-use App\Http\Controllers\VerifyAttendanceController;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\VacationRequestController;
+use App\Http\Controllers\VerifyAttendanceController;
 use App\Http\Controllers\EmployeeAttendanceController;
 use App\Http\Controllers\UpdateVacationRequestController;
 use App\Http\Controllers\EmployeeVacationRequestController;
 
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [SessionController::class, 'create'])
-        ->name('login');
 
-    Route::post('/login', [SessionController::class, 'store']);
-});
-
-Route::delete('/logout', [SessionController::class, 'destroy'])
-    ->middleware('auth')
-    ->name('logout');
+// Auth
+require __DIR__ . '/auth.php';
 
 // Admin
 Route::middleware(['auth', 'can:access-admin-panel'])
@@ -57,7 +49,7 @@ Route::middleware(['auth', 'can:access-admin-panel'])
     });
 
 // Employee
-Route::middleware(['auth', 'can:access-employee-menu'])
+Route::middleware(['auth', 'can:access-employee-menu', 'verified'])
     ->group(function () {
         Route::redirect('/', '/attendance');
         Route::get('/attendance', [EmployeeAttendanceController::class, 'create'])
