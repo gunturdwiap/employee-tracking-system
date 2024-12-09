@@ -78,7 +78,7 @@
     </form>
 
     @push('scripts')
-        <script>
+        <script type="module">
             const map = L.map('map').setView([-8.79883, 115.161343], 20);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,

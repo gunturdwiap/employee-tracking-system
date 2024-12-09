@@ -17,7 +17,7 @@ class AttendanceController extends Controller
 
         if ($request->filled('s')) {
             $attendances->whereHas('user', function (Builder $query) use ($request) {
-                $query->where('name', $request->s);
+                $query->where('name', 'like', '%' . $request->s . '%');
             });
         }
 
@@ -37,8 +37,6 @@ class AttendanceController extends Controller
         } else {
             $attendances->whereDate('date', date('Y-m-d'));
         }
-
-        dump($attendances->toRawSql());
 
         return view('attendances.index', [
             'attendances' => $attendances->paginate(15)
