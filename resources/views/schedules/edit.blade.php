@@ -80,7 +80,7 @@
     </form>
 
     @push('scripts')
-        <script>
+        <script type="module">
             const latitudeInput = document.querySelector('input[name="latitude"]');
             const longitudeInput = document.querySelector('input[name="longitude"]');
             const map = L.map('map').setView([latitudeInput.value, longitudeInput.value], 13);

@@ -38,8 +38,6 @@ class AttendanceController extends Controller
             $attendances->whereDate('date', date('Y-m-d'));
         }
 
-        dump($attendances->toRawSql());
-
         return view('attendances.index', [
             'attendances' => $attendances->paginate(15)
         ]);

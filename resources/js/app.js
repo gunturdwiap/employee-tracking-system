@@ -1,5 +1,8 @@
 import './bootstrap';
 import 'flowbite';
+import L from "leaflet";
+
+import 'leaflet/dist/leaflet.css';
 
 var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
 var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
