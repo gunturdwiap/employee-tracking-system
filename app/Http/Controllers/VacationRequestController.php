@@ -4,16 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\VacationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class VacationRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $vacationRequests = VacationRequest::with(['user']);
+
+        if ($request->filled('status')) {
+            $vacationRequests->whereIn('status', $request->status);
+        }
+
+        if ($request->filled('s')) {
+            $vacationRequests->whereHas('user', function (Builder $query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->s . '%');
+            });
+        }
+
         return view('vacation-request.index', [
-            'vacationRequests' => VacationRequest::with(['user'])->paginate(15)
+            'vacationRequests' => $vacationRequests->paginate(15)
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\AttendanceStatus;
+use App\Enums\AttendanceVerificationStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,6 +24,7 @@ class AttendanceFactory extends Factory
             'check_in_time' => now(),
             'check_out_time' => now()->addHours(8),
             'status' => AttendanceStatus::ABSENT,
+            'verification_status' => AttendanceVerificationStatus::PENDING,
             'user_id' => User::factory()
         ];
     }

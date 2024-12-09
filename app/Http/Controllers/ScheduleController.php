@@ -16,14 +16,17 @@ class ScheduleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $employees = User::where('role', UserRole::EMPLOYEE)
-            ->with(['schedules'])
-            ->paginate(5);
+            ->with(['schedules']);
+
+        if ($request->filled('s')) {
+            $employees->where('name', 'like', '%' . $request->s . '%');
+        }
 
         return view('schedules.index', [
-            'employees' => $employees
+            'employees' => $employees->paginate(5)
         ]);
     }
 

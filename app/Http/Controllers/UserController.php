@@ -13,10 +13,25 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user = User::query();
+
+        // Apply role filter if provided
+        if ($request->filled('role')) {
+            $user->whereIn('role', $request->role);
+        }
+
+        // Apply search filter
+        if ($request->filled('s')) {
+            $user->where(function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->s . '%')
+                    ->orWhere('email', 'like', '%' . $request->s . '%');
+            });
+        }
+
         return view('users.index', [
-            'users' => User::paginate(15)
+            'users' => $user->paginate(5)->withQueryString()
         ]);
     }
 
@@ -25,7 +40,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -36,13 +51,15 @@ class UserController extends Controller
         $attributes = $request->validate([
             'name' => ['required', 'max:255'],
             'role' => ['required', Rule::enum(UserRole::class)],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required']
+            'email' => ['required', 'email', 'unique:users,email', 'max:255'],
+            'password' => ['required', 'confirmed']
         ]);
 
-        $user = User::create($attributes);
+        \Log::info($attributes);
 
-        return to_route('users.show', ['user' => $user])->with('success', 'User created');
+        User::create($attributes);
+
+        return to_route('users.index')->with('success', 'User created');
     }
 
     /**
@@ -66,7 +83,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return response()->json($user->load(['schedules', 'attendances']));
+        return view('users.edit', ['user' => $user]);
     }
 
     /**
@@ -77,13 +94,12 @@ class UserController extends Controller
         $attributes = $request->validate([
             'name' => ['required', 'max:255'],
             'role' => ['required', Rule::enum(UserRole::class)],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
-            'password' => ['required']
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id), 'max:255'],
         ]);
 
         $user->update($attributes);
 
-        return to_route('users.show', ['user' => $user])->with('success', 'User updated');
+        return to_route('users.edit', ['user' => $user])->with('success', 'User updated');
     }
 
     /**
@@ -91,6 +107,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if ($user->role == UserRole::ADMIN) {
+            return to_route('users.index')->with('danger', 'Cant delete user with admin role');
+        }
+
         $user->schedules()->delete();
 
         $user->attendances()->delete();
