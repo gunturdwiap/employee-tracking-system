@@ -1,8 +1,10 @@
 import './bootstrap';
 import 'flowbite';
 import L from "leaflet";
-
+import ApexCharts from 'apexcharts';
 import 'leaflet/dist/leaflet.css';
+
+window.ApexCharts = ApexCharts;
 
 var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
 var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
