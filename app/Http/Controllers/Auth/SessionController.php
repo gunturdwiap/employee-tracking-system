@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Enums\UserRole;
+use Gate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +37,7 @@ class SessionController extends Controller
 
         $request->session()->regenerate();
 
-        if (auth()->user()->role === UserRole::ADMIN) {
+        if (Gate::allows('access-admin-panel')) {
             return redirect()->route('dashboard');
         }
 

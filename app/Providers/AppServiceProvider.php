@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading();
 
         Gate::define('access-admin-panel', function (User $user) {
-            return $user->role === UserRole::ADMIN;
+            return ($user->role === UserRole::ADMIN) || ($user->role === UserRole::VERIFICATOR);
         });
 
         Gate::define('access-employee-menu', function (User $user) {

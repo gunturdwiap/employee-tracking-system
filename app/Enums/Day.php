@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 
 enum Day: int
 {
+    // iso weekday
     case MONDAY = 1;
     case TUESDAY = 2;
     case WEDNESDAY = 3;
@@ -13,7 +14,6 @@ enum Day: int
     case FRIDAY = 5;
     case SATURDAY = 6;
     case SUNDAY = 7;
-
 
     public static function options(): array
     {

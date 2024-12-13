@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Attendance;
+use App\Models\User;
 use App\Models\Schedule;
+use App\Models\VacationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -16,37 +19,107 @@ use App\Http\Controllers\EmployeeVacationRequestController;
 // Auth
 require __DIR__ . '/auth.php';
 
-// Admin
-Route::middleware(['auth', 'can:access-admin-panel'])
-    ->prefix('/admin')
-    ->group(function () {
-        Route::get('/', function () {
-            return view('dashboard');
-        })->name('dashboard');
+// Admin & Verificator
+Route::middleware(['auth', 'can:access-admin-panel'])->prefix('/admin')->group(function () {
+    // Dashboard
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-        Route::resource('users', UserController::class);
-
-        // Display all schedules
-        Route::get('/schedules', [ScheduleController::class, 'index'])
-            ->name('schedules.index');
-
-        // Manage schedule for each user
-        Route::resource('/users/{user}/schedules', ScheduleController::class)
-            ->except(['index', 'show']);
-
-        Route::resource('/attendances', AttendanceController::class);
-
-        Route::resource('/vacation-requests', VacationRequestController::class);
-
-        // TODO: edit nanti
-        Route::put('/vacation-requests/{vacation_request}/update-status', UpdateVacationRequestController::class)
-            ->name('vacation-requests.update-status');
-
-        // Verificator
-        Route::put('/attendances/{attendance}/verification', VerifyAttendanceController::class)
-            ->name('attendances.verify');
-
+    // Users Management
+    Route::prefix('/users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])
+            ->can('viewAny', User::class)
+            ->name('index');
+        Route::get('/create', [UserController::class, 'create'])
+            ->can('create', User::class)
+            ->name('create');
+        Route::post('', [UserController::class, 'store'])
+            ->can('create', User::class)
+            ->name('store');
+        Route::get('/{user}', [UserController::class, 'show'])
+            ->can('view', 'user')
+            ->name('show');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])
+            ->can('update', 'user')
+            ->name('edit');
+        Route::put('/{user}', [UserController::class, 'update'])
+            ->can('update', 'user')
+            ->name('update');
+        Route::delete('/{user}', [UserController::class, 'destroy'])
+            ->can('delete', 'user')
+            ->name('destroy');
     });
+
+    // Schedules Management
+    Route::name('schedules.')->group(function () {
+        Route::get('/schedules', [ScheduleController::class, 'index'])
+            ->can('viewAny', Schedule::class)
+            ->name('index');
+        Route::get('/users/{user}/schedules/create', [ScheduleController::class, 'create'])
+            ->can('create', Schedule::class)
+            ->name('create');
+        Route::post('/users/{user}/schedules', [ScheduleController::class, 'store'])
+            ->can('create', Schedule::class)
+            ->name('store');
+        Route::get('/users/{user}/schedules/{schedule}/edit', [ScheduleController::class, 'edit'])
+            ->can('update', 'schedule')
+            ->name('edit');
+        Route::put('/users/{user}/schedules/{schedule}', [ScheduleController::class, 'update'])
+            ->can('update', 'schedule')
+            ->name('update');
+        Route::delete('/users/{user}/schedules/{schedule}', [ScheduleController::class, 'destroy'])
+            ->can('delete', 'schedule')
+            ->name('destroy');
+    });
+
+    // Attendances Management
+    Route::name('attendances.')->group(function () {
+        Route::get('/attendances', [AttendanceController::class, 'index'])
+            ->can('viewAny', Attendance::class)
+            ->name('index');
+        // Route::post('/attendances', [AttendanceController::class, 'store'])
+        //     ->can('create', Attendance::class)
+        //     ->name('store');
+        Route::get('/attendances/{attendance}', [AttendanceController::class, 'show'])
+            ->can('view', 'attendance')
+            ->name('show');
+        // Route::put('/attendances/{attendance}', [AttendanceController::class, 'update'])
+        //     ->can('update', 'attendance')
+        //     ->name('update');
+        // Route::delete('/attendances/{attendance}', [AttendanceController::class, 'destroy'])
+        //     ->can('delete', 'attendance')
+        //     ->name('destroy');
+
+        Route::put('/attendances/{attendance}/verification', VerifyAttendanceController::class)
+            ->can('verify', 'attendance')
+            ->name('verify');
+    });
+
+    // Vacation Requests Management
+    Route::name('vacation-requests.')->group(function () {
+        Route::get('/vacation-requests', [VacationRequestController::class, 'index'])
+            ->can('viewAny', VacationRequest::class)
+            ->name('index');
+        Route::post('/vacation-requests', [VacationRequestController::class, 'store'])
+            ->can('create', VacationRequest::class)
+            ->name('store');
+        Route::get('/vacation-requests/{vacation_request}', [VacationRequestController::class, 'show'])
+            ->can('view', 'vacation_request')
+            ->name('show');
+        Route::put('/vacation-requests/{vacation_request}', [VacationRequestController::class, 'update'])
+            ->can('update', 'vacation_request')
+            ->name('update');
+        Route::delete('/vacation-requests/{vacation_request}', [VacationRequestController::class, 'destroy'])
+            ->can('delete', 'vacation_request')
+            ->name('destroy');
+
+        Route::put('/vacation-requests/{vacation_request}/update-status', UpdateVacationRequestController::class)
+            ->can('updateStatus', 'vacation_request')
+            ->name('update-status');
+    });
+});
+
 
 // Employee
 Route::middleware(['auth', 'can:access-employee-menu', 'verified'])

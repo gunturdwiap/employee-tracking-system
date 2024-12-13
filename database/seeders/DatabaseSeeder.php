@@ -24,6 +24,12 @@ class DatabaseSeeder extends Seeder
             'role' => UserRole::ADMIN
         ]);
 
+        User::factory()->create([
+            'name' => 'verificator',
+            'email' => 'verificator@verificator.verificator',
+            'role' => UserRole::VERIFICATOR
+        ]);
+
         $orang = User::factory()->create([
             'name' => 'Louise Juventus Payong Bali Arakian',
             'email' => 'user@user.user',
