@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\AttendanceStatus;
+use App\Enums\AttendanceVerificationStatus;
 use App\Enums\VacationRequestStatus;
 use App\Models\Attendance;
 use App\Models\VacationRequest;
@@ -45,10 +46,8 @@ class UpdateVacationAttendance extends Command
                     'date' => $today,
                 ],
                 [
-                    'status' => AttendanceStatus::VACATION, // Set attendance status to 'Vacation'
-                    'check_in_time' => null, // Clear check-in and check-out times
-                    'check_out_time' => null,
-                    'photo' => null,
+                    'status' => AttendanceStatus::VACATION,
+                    'verification_status' => AttendanceVerificationStatus::APPROVED,
                 ]
             );
         }
