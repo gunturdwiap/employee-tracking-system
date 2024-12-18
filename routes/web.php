@@ -1,17 +1,20 @@
 <?php
 
-use App\Models\Attendance;
+use App\Http\Controllers\GetAttendanceTrendsController;
 use App\Models\User;
 use App\Models\Schedule;
-use App\Models\VacationRequest;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
+use App\Models\VacationRequest;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\VacationRequestController;
 use App\Http\Controllers\VerifyAttendanceController;
 use App\Http\Controllers\EmployeeAttendanceController;
+use App\Http\Controllers\GetAttendanceOverviewController;
 use App\Http\Controllers\UpdateVacationRequestController;
 use App\Http\Controllers\EmployeeVacationRequestController;
 
@@ -22,9 +25,7 @@ require __DIR__ . '/auth.php';
 // Admin & Verificator
 Route::middleware(['auth', 'can:access-admin-panel'])->prefix('/admin')->group(function () {
     // Dashboard
-    Route::get('/', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/', DashboardController::class)->name('dashboard');
 
     // Users Management
     Route::prefix('/users')->name('users.')->group(function () {
@@ -118,6 +119,12 @@ Route::middleware(['auth', 'can:access-admin-panel'])->prefix('/admin')->group(f
             ->can('updateStatus', 'vacation_request')
             ->name('update-status');
     });
+
+    // Chart
+    Route::get('/attendance-status-overview', GetAttendanceOverviewController::class)
+        ->name('attendances.overview');
+    Route::get('/attendance-trends', GetAttendanceTrendsController::class)
+        ->name('attendances.trends');
 });
 
 

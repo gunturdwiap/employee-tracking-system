@@ -20,10 +20,10 @@ class AttendanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => now(),
+            'date' => now()->subDays(rand(0, 30))->toDateString(),
             'check_in_time' => now(),
             'check_out_time' => now()->addHours(8),
-            'status' => AttendanceStatus::ABSENT,
+            'status' => rand(0, 1) === 1 ? AttendanceStatus::LATE : AttendanceStatus::ON_TIME,
             'verification_status' => AttendanceVerificationStatus::PENDING,
             'user_id' => User::factory()
         ];
