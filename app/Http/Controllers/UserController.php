@@ -17,6 +17,11 @@ class UserController extends Controller
     {
         $user = User::query();
 
+        $request->validate([
+            's' => 'string',
+            'role' => 'array',
+        ]);
+
         // Apply role filter if provided
         if ($request->filled('role')) {
             $user->whereIn('role', $request->role);

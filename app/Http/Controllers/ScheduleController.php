@@ -21,6 +21,11 @@ class ScheduleController extends Controller
         $employees = User::where('role', UserRole::EMPLOYEE)
             ->with(['schedules']);
 
+        $request->validate([
+            's' => 'string',
+        ]);
+
+
         if ($request->filled('s')) {
             $employees->where('name', 'like', '%' . $request->s . '%');
         }

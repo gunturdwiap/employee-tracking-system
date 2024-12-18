@@ -15,6 +15,14 @@ class AttendanceController extends Controller
     {
         $attendances = Attendance::query()->with(['user']);
 
+        $request->validate([
+            'status' => 'string',
+            's' => 'string',
+            'verification_status' => 'string',
+            'from' => 'date:Y-m-d',
+            'to' => 'date:Y-m-d'
+        ]);
+
         if ($request->filled('s')) {
             $attendances->whereHas('user', function (Builder $query) use ($request) {
                 $query->where('name', 'like', '%' . $request->s . '%');
