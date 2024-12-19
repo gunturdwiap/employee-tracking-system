@@ -37,12 +37,11 @@ class AttendanceService
 
     public function isWithinCheckInTime(Carbon $startTime, Carbon $checkInTime)
     {
-        return $checkInTime->between(
-            $startTime->subMinutes(self::GRACE_PERIOD),
-            $startTime->addMinutes(self::GRACE_PERIOD)
-        );
-    }
+        $startTimeBefore = $startTime->copy()->subMinutes(self::GRACE_PERIOD);
+        $startTimeAfter = $startTime->copy()->addMinutes(self::GRACE_PERIOD);
 
+        return $checkInTime->between($startTimeBefore, $startTimeAfter);
+    }
     public function hasCheckedOutToday(User $user)
     {
         return Attendance::query()
