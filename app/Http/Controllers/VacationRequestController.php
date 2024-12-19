@@ -16,7 +16,10 @@ class VacationRequestController extends Controller
     {
         $vacationRequests = VacationRequest::with(['user']);
 
-        $request->validate(['status' => 'array', 's' => 'string']);
+        $request->validate([
+            'status' => ['nullable', 'array'],
+            's' => ['nullable', 'string']
+        ]);
 
         if ($request->filled('status')) {
             $vacationRequests->whereIn('status', $request->status);

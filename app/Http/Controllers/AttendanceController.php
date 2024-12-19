@@ -16,11 +16,11 @@ class AttendanceController extends Controller
         $attendances = Attendance::query()->with(['user']);
 
         $request->validate([
-            'status' => 'string',
-            's' => 'string',
-            'verification_status' => 'string',
-            'from' => 'date:Y-m-d',
-            'to' => 'date:Y-m-d'
+            'status' => ['nullable', 'string'],
+            's' => ['nullable', 'string'],
+            'verification_status' => ['nullable', 'string'],
+            'from' => ['nullable', 'date:Y-m-d'],
+            'to' => ['nullable', 'date:Y-m-d']
         ]);
 
         if ($request->filled('s')) {

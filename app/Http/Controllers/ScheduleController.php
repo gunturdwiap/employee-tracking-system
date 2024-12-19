@@ -22,7 +22,7 @@ class ScheduleController extends Controller
             ->with(['schedules']);
 
         $request->validate([
-            's' => 'string',
+            's' => ['nullable', 'string'],
         ]);
 
 
