@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use App\Enums\AttendanceVerificationStatus;
 
 class GetAttendanceOverviewController extends Controller
 {
@@ -13,9 +14,10 @@ class GetAttendanceOverviewController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $request->validate(['from' => 'date:Y-m-d', 'to' => 'date:Y-m-d']);
+        $request->validate(['from' => ['sometimes', 'date:Y-m-d'], 'to' => ['sometimes', 'date:Y-m-d']]);
 
         $attendances = Attendance::selectRaw('status, COUNT(*) as count')
+            ->where('verification_status', AttendanceVerificationStatus::APPROVED)
             ->groupBy('status');
 
         if ($request->filled(['from', 'to'])) {

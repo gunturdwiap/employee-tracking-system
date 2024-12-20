@@ -6,8 +6,9 @@
         </div>
         <button id="dateRangeButton" data-dropdown-toggle="dateRangeDropdown"
             data-dropdown-ignore-click-outside-class="datepicker" type="button"
-            class="inline-flex items-center text-blue-700 dark:text-blue-600 font-medium hover:underline">31
-            Nov - 31 Dev <svg class="w-3 h-3 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            class="inline-flex items-center text-blue-700 dark:text-blue-600 font-medium hover:underline">
+            <span id="dateRangeText"></span>
+            <svg class="w-3 h-3 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 10 6">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="m1 1 4 4 4-4" />
@@ -16,31 +17,13 @@
         <div id="dateRangeDropdown"
             class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-80 lg:w-96 dark:bg-gray-700 dark:divide-gray-600">
             <div class="p-3" aria-labelledby="dateRangeButton">
-                <div date-rangepicker datepicker-autohide class="flex items-center">
+                <div class="flex items-center">
                     <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                            </svg>
-                        </div>
-                        <input name="start" type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Start date">
+                        <x-forms.input name="from" type="date" />
                     </div>
                     <span class="mx-2 text-gray-500 dark:text-gray-400">to</span>
                     <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                            </svg>
-                        </div>
-                        <input name="end" type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="End date">
+                        <x-forms.input name="to" type="date" />
                     </div>
                 </div>
             </div>
@@ -170,87 +153,125 @@
     <script type="module">
         const url = "{{ route('attendances.overview') }}";
 
-        const Pie = {
-            initChart(series, labels) {
-                if (document.getElementById("pie-chart") && typeof ApexCharts !== 'undefined') {
-                    const chart = new ApexCharts(document.getElementById("pie-chart"), {
-                        series: series,
-                        colors: ["#1C64F2", "#16BDCA", "#9061F9", "#F97316"],
-                        chart: {
-                            height: "100%",
-                            width: "100%",
-                            type: "pie",
+        function getOptions() {
+            return {
+                series: [],
+                colors: ["#1C64F2", "#16BDCA", "#9061F9", "#F97316"],
+                chart: {
+                    height: "100%",
+                    width: "100%",
+                    type: "pie",
+                },
+                stroke: {
+                    colors: ["white"],
+                    lineCap: "",
+                },
+                plotOptions: {
+                    pie: {
+                        labels: {
+                            show: true,
                         },
-                        stroke: {
-                            colors: ["white"],
-                            lineCap: "",
-                        },
-                        plotOptions: {
-                            pie: {
-                                labels: {
-                                    show: true,
-                                },
-                                size: "100%",
-                                dataLabels: {
-                                    offset: -25
-                                }
-                            },
-                        },
-                        labels: labels,
+                        size: "100%",
                         dataLabels: {
-                            enabled: true,
-                            style: {
-                                fontFamily: "Inter, sans-serif",
-                            },
-                        },
-                        legend: {
-                            position: "bottom",
-                            fontFamily: "Inter, sans-serif",
-                        },
-                        yaxis: {
-                            labels: {
-                                formatter: function(value) {
-                                    return value + "%"
-                                },
-                            },
-                        },
-                        xaxis: {
-                            labels: {
-                                formatter: function(value) {
-                                    return value + "%"
-                                },
-                            },
-                            axisTicks: {
-                                show: false,
-                            },
-                            axisBorder: {
-                                show: false,
-                            },
-                        },
-                    });
+                            offset: -25
+                        }
+                    },
+                },
+                labels: [],
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        fontFamily: "Inter, sans-serif",
+                    },
+                },
+                legend: {
+                    position: "bottom",
+                    fontFamily: "Inter, sans-serif",
+                },
+                xaxis: {
+                    axisTicks: {
+                        show: false,
+                    },
+                    axisBorder: {
+                        show: false,
+                    },
+                },
+            }
+        }
 
-                    chart.render();
+        async function fetchData(url, from = null, to = null) {
+            try {
+                let fullUrl = (from === null) && (to === null) ? url : `${url}?from=${from}&to=${to}`;
+
+                const response = await fetch(fullUrl);
+                const json = await response.json();
+
+                let labels = [...new Set(json.data.map((data) => data.status))]
+                let series = json.data.map((data) => data.count)
+                console.log(labels);
+                console.log(series);
+
+                return {
+                    labels,
+                    series
+                };
+            } catch (error) {
+                console.error(error.message);
+                return null;
+            }
+        }
+
+        function updateChart(chart, data) {
+            if (data) {
+                chart.updateOptions({
+                    labels: data.labels,
+                    series: data.series
+                });
+            } else {
+                console.error("Failed to update chart");
+            }
+        }
+
+        function formatDate(date) {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function changeDateRangeText(start, end) {
+            const dateRangeText = document.getElementById('dateRangeText');
+            dateRangeText.textContent = `${start} - ${end}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const chart = new ApexCharts(document.getElementById("pie-chart"), getOptions());
+            chart.render();
+
+            // fetch data from 1 month ago to today
+            const today = formatDate(new Date())
+            const thirtyDaysAgo = formatDate(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
+            const data = await fetchData(url, thirtyDaysAgo, today);
+            updateChart(chart, data);
+            changeDateRangeText(thirtyDaysAgo, today);
+
+            // handle date change
+            const dateFrom = document.querySelector('input[name="from"]');
+            const dateTo = document.querySelector('input[name="to"]');
+            async function handleDateChange() {
+                const from = dateFrom.value;
+                const to = dateTo.value;
+                if (from && to) {
+                    const data = await fetchData(url, from, to);
+                    console.log(data);
+                    updateChart(chart, data);
+                    changeDateRangeText(from, to);
                 }
             }
-        }
 
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-
-            const json = await response.json();
-            console.log(json);
-
-            let labels = [...new Set(json.data.map((data) => data.status))]
-            let series = json.data.map((data) => data.count)
-            console.log(labels);
-            console.log(series);
-
-            Pie.initChart(series, labels);
-        } catch (error) {
-            console.error(error.message);
-        }
+            dateFrom.addEventListener('change', handleDateChange);
+            dateTo.addEventListener('change', handleDateChange);
+        });
     </script>
 @endpush
