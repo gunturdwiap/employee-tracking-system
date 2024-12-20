@@ -42,8 +42,6 @@ class AttendanceController extends Controller
                 $query->whereDate('date', '>=', $request->from)
                     ->whereDate('date', '<=', $request->to);
             });
-        } else {
-            $attendances->whereDate('date', date('Y-m-d'));
         }
 
         return view('attendances.index', [

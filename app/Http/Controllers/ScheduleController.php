@@ -70,8 +70,7 @@ class ScheduleController extends Controller
 
         $user->schedules()->create($attributes);
 
-        return to_route('users.show', ['user' => $user])
-            ->with('success', 'Schedule created');
+        return back()->with('success', 'Schedule created');
     }
 
     /**
@@ -125,8 +124,7 @@ class ScheduleController extends Controller
 
         $schedule->update($attributes);
 
-        return to_route('users.show', ['user' => $user])
-            ->with('success', 'Schedule updated');
+        return back()->with('success', 'Schedule updated');
     }
 
     /**

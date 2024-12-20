@@ -60,8 +60,6 @@ class UserController extends Controller
             'password' => ['required', 'confirmed']
         ]);
 
-        \Log::info($attributes);
-
         User::create($attributes);
 
         return to_route('users.index')->with('success', 'User created');

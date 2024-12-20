@@ -26,6 +26,6 @@ class UpdateVacationRequestController extends Controller
             'status' => $request->status
         ]);
 
-        return to_route('vacation-requests.index')->with('success', 'Vacation request status updated');
+        return back()->with('success', 'Vacation request status updated');
     }
 }

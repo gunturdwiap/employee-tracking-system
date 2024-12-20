@@ -23,6 +23,6 @@ class VerifyAttendanceController extends Controller
             'verification_status' => $request->verification_status
         ]);
 
-        return to_route('attendances.index')->with('success', 'Attendance verification status updated');
+        return back()->with('success', 'Attendance verification status updated');
     }
 }
