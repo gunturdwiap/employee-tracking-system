@@ -50,7 +50,7 @@
                     <option selected disabled>Select Role</option>
                     @foreach (App\Enums\UserRole::cases() as $role)
                         <option value="{{ $role->value }}" {{ $role->value == old('role') ? 'selected' : '' }}>
-                            {{ $role->name }}</option>
+                            {{ $role->label() }}</option>
                     @endforeach
                 </select>
                 <x-forms.error name="role"></x-forms.error>

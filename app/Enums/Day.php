@@ -15,20 +15,17 @@ enum Day: int
     case SATURDAY = 6;
     case SUNDAY = 7;
 
-    public static function options(): array
+
+    public function label()
     {
-        $cases = self::cases();
-        $options = [];
-        foreach ($cases as $case) {
-            $label = $case->name;
-            if (Str::contains($label, '_')) {
-                $label = Str::replace('_', ' ', $label);
-            }
-            $options[] = [
-                'value' => $case->value,
-                'label' => Str::title($label)
-            ];
-        }
-        return $options;
+        return match ($this) {
+            self::MONDAY => 'Monday',
+            self::TUESDAY => 'Tuesday',
+            self::WEDNESDAY => 'Wednesday',
+            self::THURSDAY => 'Thursday',
+            self::FRIDAY => 'Friday',
+            self::SATURDAY => 'Saturday',
+            self::SUNDAY => 'Sunday',
+        };
     }
 }

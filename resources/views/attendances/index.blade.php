@@ -59,15 +59,12 @@
                                         class="block text-sm font-medium text-gray-900 dark:text-gray-100">Status</label>
                                     <select id="status" name="status"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                        <option value="">Select Status</option>
-                                        <option value="on_time" {{ request('status') == 'on_time' ? 'selected' : '' }}>
-                                            On Time</option>
-                                        <option value="late" {{ request('status') == 'late' ? 'selected' : '' }}>Late
-                                        </option>
-                                        <option value="vacation"
-                                            {{ request('status') == 'vacation' ? 'selected' : '' }}>On Vacation</option>
-                                        <option value="absent" {{ request('status') == 'absent' ? 'selected' : '' }}>
-                                            Absent</option>
+                                        <option value="" disabled>Select Status</option>
+                                        @foreach (App\Enums\AttendanceStatus::cases() as $status)
+                                            <option value="{{ $status->value }}"
+                                                {{ request('status') == $status->value ? 'selected' : '' }}>
+                                                {{ $status->label() }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -78,16 +75,13 @@
                                         Status</label>
                                     <select id="verification_status" name="verification_status"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                        <option value="">Select Verification Status</option>
-                                        <option value="approved"
-                                            {{ request('verification_status') == 'approved' ? 'selected' : '' }}>
-                                            Approved</option>
-                                        <option value="rejected"
-                                            {{ request('verification_status') == 'rejected' ? 'selected' : '' }}>
-                                            Rejected</option>
-                                        <option value="rejected"
-                                            {{ request('verification_status') == 'pending' ? 'selected' : '' }}>
-                                            Pending</option>
+                                        <option value="" disabled>Select Verification Status</option>
+                                        @foreach (App\Enums\AttendanceVerificationStatus::cases() as $day)
+                                            <option value="{{ $day->value }}"
+                                                {{ request('verification_status') == $day->value ? 'selected' : '' }}>
+                                                {{ $day->label() }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -146,8 +140,8 @@
                     <td class="px-4 py-3">{{ $attendance->user->name }}</td>
                     <td class="px-4 py-3">{{ $attendance->check_in_time?->format('H:i') }}</td>
                     <td class="px-4 py-3">{{ $attendance->check_out_time?->format('H:i') }}</td>
-                    <td class="px-4 py-3">{{ $attendance->status }}</td>
-                    <td class="px-4 py-3">{{ $attendance->verification_status }}</td>
+                    <td class="px-4 py-3">{{ $attendance->status->label() }}</td>
+                    <td class="px-4 py-3">{{ $attendance->verification_status->label() }}</td>
                     <td class="px-4 py-3">
 
                         <div class="inline-flex rounded-md shadow-sm" role="group">

@@ -48,12 +48,12 @@
                                 <ul class="space-y-2 text-sm">
                                     @foreach (App\Enums\VacationRequestStatus::cases() as $status)
                                         <li class="flex items-center">
-                                            <input id="{{ $status->name }}" type="checkbox" value="{{ $status->value }}"
-                                                name="status[]"
+                                            <input id="{{ $status->label() }}" type="checkbox"
+                                                value="{{ $status->value }}" name="status[]"
                                                 class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                                                 {{ in_array($status->value, request('status', [])) ? 'checked' : '' }}>
-                                            <label for="{{ $status->name }}"
-                                                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $status->name }}
+                                            <label for="{{ $status->label() }}"
+                                                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $status->label() }}
                                             </label>
                                         </li>
                                     @endforeach
@@ -89,7 +89,7 @@
                     <td class="px-4 py-3">{{ $vacationRequest->start->format('Y-m-d') }}</td>
                     <td class="px-4 py-3">{{ $vacationRequest->end->format('Y-m-d') }}</td>
                     <td class="px-4 py-3">{{ Str::limit($vacationRequest->reason, 50, '...') }}</td>
-                    <td class="px-4 py-3">{{ $vacationRequest->status }}</td>
+                    <td class="px-4 py-3">{{ $vacationRequest->status->label() }}</td>
                     <td class="px-4 py-3">
 
                         <div class="inline-flex rounded-md shadow-sm" role="group">

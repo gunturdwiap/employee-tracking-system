@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Attendance;
+use App\Models\VacationRequest;
 
 class DashboardController extends Controller
 {
@@ -11,6 +12,8 @@ class DashboardController extends Controller
      */
     public function __invoke()
     {
-        return view('dashboard');
+        $pendingVacationRequestCount = VacationRequest::where('status', 'pending')->count();
+        $pendingAttendanceVerificationCount = Attendance::where('verification_status', 'pending')->count();
+        return view('dashboard', ['pendingVacationRequestCount' => $pendingVacationRequestCount, 'pendingAttendanceVerificationCount' => $pendingAttendanceVerificationCount]);
     }
 }

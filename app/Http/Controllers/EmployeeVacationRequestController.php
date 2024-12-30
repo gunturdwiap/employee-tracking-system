@@ -53,7 +53,7 @@ class EmployeeVacationRequestController extends Controller
             return back()->with('danger', 'You already have an approved vacation request for this day.');
         }
 
-        $request->user()->vacationRequests()->create($attributes);
+        $request->user()->vacationRequests()->create([...$attributes, 'status' => VacationRequestStatus::PENDING]);
 
         return to_route('employee.vacation')->with('success', 'Vacation request created');
     }

@@ -57,12 +57,12 @@
                                 <ul class="space-y-2 text-sm">
                                     @foreach (App\Enums\UserRole::cases() as $role)
                                         <li class="flex items-center">
-                                            <input id="{{ $role->name }}" type="checkbox" value="{{ $role->value }}"
+                                            <input id="{{ $role->label() }}" type="checkbox" value="{{ $role->value }}"
                                                 name="role[]"
                                                 class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                                                 {{ in_array($role->value, request('role', [])) ? 'checked' : '' }}>
-                                            <label for="{{ $role->name }}"
-                                                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $role->name }}
+                                            <label for="{{ $role->label() }}"
+                                                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $role->label() }}
                                             </label>
                                         </li>
                                     @endforeach
@@ -97,7 +97,7 @@
                         {{ $user->id }}</th>
                     <td class="px-4 py-3">{{ $user->name }}</td>
                     <td class="px-4 py-3">{{ $user->email }}</td>
-                    <td class="px-4 py-3">{{ $user->role }}</td>
+                    <td class="px-4 py-3">{{ $user->role->label() }}</td>
                     <td class="px-4 py-3">
 
                         <div class="inline-flex rounded-md shadow-sm" role="group">

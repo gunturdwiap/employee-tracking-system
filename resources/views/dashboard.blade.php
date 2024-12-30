@@ -10,8 +10,8 @@
     </x-slot:breadcrumb>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 ">
-        <x-info-card title="Pending Vacation Requests" :body=1 :link="route('vacation-requests.index', ['status[]' => 'pending'])" />
-        <x-info-card title="Pending Attendance Verifications" :body=1 :link="route('attendances.index', ['verification_status' => 'pending'])" />
+        <x-info-card title="Pending Vacation Requests" :body="$pendingVacationRequestCount" :link="route('vacation-requests.index', ['status[]' => 'pending'])" />
+        <x-info-card title="Pending Attendance Verifications" :body="$pendingAttendanceVerificationCount" :link="route('attendances.index', ['verification_status' => 'pending'])" />
 
         {{-- <div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-24 md:h-48"></div> --}}
     </div>

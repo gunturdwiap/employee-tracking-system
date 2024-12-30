@@ -22,8 +22,8 @@
         <x-slot:header>
             <tr>
                 <th scope="col" class="px-4 py-3">Name</th>
-                @foreach (App\Enums\Day::options() as $day)
-                    <th scope="col" class="px-4 py-3">{{ $day['label'] }}</th>
+                @foreach (App\Enums\Day::cases() as $day)
+                    <th scope="col" class="px-4 py-3">{{ $day->label() }}</th>
                 @endforeach
             </tr>
         </x-slot:header>
