@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Enums\VacationRequestStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,7 +22,8 @@ class VacationRequestFactory extends Factory
             'start' => now()->addDays(10),
             'end' => now()->addDays(12),
             'status' => VacationRequestStatus::PENDING,
-            'reason' => fake()->realText()
+            'reason' => fake()->realText(),
+            'user_id' => User::factory(),
         ];
     }
 }

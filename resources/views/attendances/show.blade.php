@@ -58,7 +58,7 @@
                 <div>
                     <p class="font-medium text-gray-900 dark:text-white">Check-in Photo:</p>
                     @if ($attendance->check_in_photo)
-                        <img src="{{ asset('storage/photos/' . $attendance->check_in_photo) }}" alt="Check-in Photo"
+                        <img src="{{ asset('storage/' . $attendance->check_in_photo) }}" alt="Check-in Photo"
                             class=" w-80 h-80 object-cover rounded-lg">
                     @else
                         <p class="text-sm text-gray-500">No Check-in Photo</p>
@@ -77,7 +77,7 @@
                 <div>
                     <p class="font-medium text-gray-900 dark:text-white">Check-out Photo:</p>
                     @if ($attendance->check_out_photo)
-                        <img src="{{ asset('storage/photos/' . $attendance->check_out_photo) }}" alt="Check-out Photo"
+                        <img src="{{ asset('storage/' . $attendance->check_out_photo) }}" alt="Check-out Photo"
                             class=" w-80 h-80 object-cover rounded-lg">
                     @else
                         <p class="text-sm text-gray-500">No Check-out Photo</p>

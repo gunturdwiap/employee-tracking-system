@@ -56,9 +56,9 @@ class DatabaseSeeder extends Seeder
 
 
             // Create random attendance records for each user
-            Attendance::factory(rand(0, 30))->create([
-                'user_id' => $user->id,
-            ]);
+            // Attendance::factory(rand(0, 30))->create([
+            //     'user_id' => $user->id,
+            // ]);
         }
     }
 }
