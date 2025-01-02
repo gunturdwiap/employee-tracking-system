@@ -5,9 +5,7 @@
 
     <div
         class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 space-y-2">
-        <p class=" text-lg font-medium text-gray-900 dark:text-white">
-            Schedule
-        </p>
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Schedule</h5>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

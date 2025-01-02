@@ -5,7 +5,7 @@
 
     <div
         class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 space-y-2">
-        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Hallo {{ auth()->user()->name }}</h5>
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Vacation Request</h5>
 
         <form action="" method="post" x-data="{ today: (new Date()).toISOString().split('T')[0] }" class="grid gap-4">
             @csrf
