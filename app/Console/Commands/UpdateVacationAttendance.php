@@ -39,7 +39,17 @@ class UpdateVacationAttendance extends Command
             ->whereDate('end', '>=', $today)
             ->get();
 
+        // Update attendance records for employees on vacation
         foreach ($vacationRequests as $vacation) {
+            // Check if the user has a schedule for today
+            $hasSchedule = $vacation->user->schedules()
+                ->where('day', now()->isoWeekday())
+                ->exists();
+
+            if (!$hasSchedule) {
+                continue;
+            }
+
             Attendance::updateOrCreate(
                 [
                     'user_id' => $vacation->user_id,

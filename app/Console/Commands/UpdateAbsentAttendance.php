@@ -34,6 +34,7 @@ class UpdateAbsentAttendance extends Command
         // Get schedules for today
         $schedules = Schedule::where('day', now()->isoWeekday())->get();
 
+        // Mark employees as absent if they did not check in
         foreach ($schedules as $schedule) {
             $hasCheckedIn = Attendance::where('user_id', $schedule->user_id)
                 ->whereDate('date', $today)
@@ -50,6 +51,5 @@ class UpdateAbsentAttendance extends Command
         }
 
         $this->info('Absent employees marked successfully!');
-
     }
 }

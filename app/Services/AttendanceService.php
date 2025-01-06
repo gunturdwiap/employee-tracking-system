@@ -114,7 +114,7 @@ class AttendanceService
             ->where('user_id', $user->id)
             ->whereDate('created_at', now()->toDate())
             ->whereNotNull('check_out_time')
-            ->exists();
+            ->first();
     }
 
     public function isWithinCheckOutTime(Carbon $endTime, Carbon $checkOutTime)
@@ -127,33 +127,15 @@ class AttendanceService
 
     public function isWithinRadius(float $lat1, float $lon1, float $lat2, float $lon2, int $radius)
     {
-        // Convert latitude and longitude from degrees to radians
-        $lat1 = deg2rad($lat1);
-        $lon1 = deg2rad($lon1);
-        $lat2 = deg2rad($lat2);
-        $lon2 = deg2rad($lon2);
-
-        // Convert m to km
-        $radius = $radius / 1000;
-
-        // Earth radius in kilometers
-        $earthRadius = 6371;
-
-        // Calculate the differences
-        $dLat = $lat2 - $lat1;
-        $dLon = $lon2 - $lon1;
-
-        // Apply the Haversine formula
+        $earthRadius = 6371000; // meters
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLon = deg2rad($lon2 - $lon1);
         $a = sin($dLat / 2) * sin($dLat / 2) +
-            cos($lat1) * cos($lat2) *
+            cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
             sin($dLon / 2) * sin($dLon / 2);
-
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-
-        // Calculate the distance
         $distance = $earthRadius * $c;
 
-        // Check if the distance is within the specified radius
         return $distance <= $radius;
     }
 }

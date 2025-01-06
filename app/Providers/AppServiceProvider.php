@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::preventLazyLoading();
+        Model::shouldBeStrict();
 
         Gate::define('access-admin-panel', function (User $user) {
             return ($user->role === UserRole::ADMIN) || ($user->role === UserRole::VERIFICATOR);
