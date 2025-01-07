@@ -20,16 +20,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-
 <body class="bg-gray-50 dark:bg-gray-900">
-
     <x-navbar></x-navbar>
 
     <!-- Main Content Area -->
-    <section class="bg-gray-50 dark:bg-gray-900 min-h-screen pt-16 pb-16 flex items-center justify-center">
+    <section class="bg-gray-50 dark:bg-gray-900 min-h-screen pt-16 pb-16 overflow-y-auto">
         {{ $slot }}
     </section>
-
 
     <!-- Bottom Navigation Bar -->
     <x-bottom-navbar></x-bottom-navbar>

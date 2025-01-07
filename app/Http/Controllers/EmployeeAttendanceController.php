@@ -32,7 +32,7 @@ class EmployeeAttendanceController extends Controller
             $request->validate([
                 'latitude' => ['bail', 'required', 'numeric'],
                 'longitude' => ['bail', 'required', 'numeric'],
-                'photo' => ['bail', 'required', 'image']
+                'photo' => ['bail', 'required', 'image'],
             ]);
             $this->attendanceService->checkIn($request->user(), now(), $request->latitude, $request->longitude, $request->file('photo'));
         } catch (\Exception $e) {

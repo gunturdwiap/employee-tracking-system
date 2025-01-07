@@ -130,8 +130,8 @@
             <div class="space-y-4">
                 <div class="flex space-x-4">
                     <img class="h-16 w-16 rounded-lg"
-                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/helene-engels.png"
-                        alt="Helene avatar" />
+                        src="{{ $user->photo ? asset('profile/' . $user->photo) : 'https://ui-avatars.com/api/?name=' . $user->name }}"
+                        alt="avatar" />
                     <div>
                         <h2
                             class="flex items-center text-xl font-bold leading-none text-gray-900 dark:text-white sm:text-2xl">
@@ -202,7 +202,7 @@
                     d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z">
                 </path>
             </svg>
-            Edit your data
+            Edit Account Information
         </button>
     </div>
 

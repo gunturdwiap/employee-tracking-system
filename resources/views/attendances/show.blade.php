@@ -27,7 +27,7 @@
                         : ($attendance->verification_status->value == 'rejected'
                             ? 'text-red-500'
                             : 'text-yellow-500') }}">
-                    {{ ucfirst($attendance->verification_status->value) }}
+                    {{ $attendance->verification_status->label() }}
                 </dd>
             </div>
 
@@ -40,7 +40,7 @@
                         : ($attendance->status->value == 'late'
                             ? 'text-yellow-500'
                             : 'text-gray-500') }}">
-                    {{ ucfirst($attendance->status->value) }}
+                    {{ $attendance->verification_status->label() }}
                 </dd>
             </div>
         </div>

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\GetAttendanceTrendsController;
+use App\Http\Controllers\UpdatePasswordController;
+use App\Http\Controllers\UpdateProfileController;
 use App\Models\User;
 use App\Models\Schedule;
 use App\Models\Attendance;
@@ -154,4 +156,17 @@ Route::middleware(['auth', 'can:access-employee-menu', 'verified'])
             ->name('employee.vacation');
 
         Route::post('/vacation-request', [EmployeeVacationRequestController::class, 'store']);
+
+        Route::get('/profile', function (Request $request) {
+            return view('employee.profile', [
+                'user' => $request->user()
+            ]);
+        })->name('employee.profile');
     });
+
+Route::middleware(['auth'])->group(function () {
+    Route::put('upddate-profile', UpdateProfileController::class)
+        ->name('update-profile');
+    Route::put('update-password', UpdatePasswordController::class)
+        ->name('update-password');
+});

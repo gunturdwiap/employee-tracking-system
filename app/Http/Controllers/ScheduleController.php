@@ -86,10 +86,6 @@ class ScheduleController extends Controller
      */
     public function edit(User $user, Schedule $schedule)
     {
-        if ($schedule->user_id !== $user->id) {
-            abort(404, 'Schedule not found for this user');
-        }
-
         return view('schedules.edit', [
             'schedule' => $schedule->load('user')
         ]);
@@ -100,10 +96,6 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, User $user, Schedule $schedule)
     {
-        if ($schedule->user_id !== $user->id) {
-            abort(404, 'Schedule not found for this user');
-        }
-
         $attributes = $request->validate([
             'work_start_time' => ['required', 'date_format:H:i'],
             'work_end_time' => ['required', 'date_format:H:i'],
@@ -132,10 +124,6 @@ class ScheduleController extends Controller
      */
     public function destroy(User $user, Schedule $schedule)
     {
-        if ($schedule->user_id !== $user->id) {
-            abort(404, 'Schedule not found for this user');
-        }
-
         $schedule->delete();
 
         return back()

@@ -7,6 +7,7 @@ use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -57,7 +58,7 @@ class UserController extends Controller
             'name' => ['required', 'max:255'],
             'role' => ['required', Rule::enum(UserRole::class)],
             'email' => ['required', 'email', 'unique:users,email', 'max:255'],
-            'password' => ['required', 'confirmed']
+            'password' => ['required', 'confirmed', Password::default()]
         ]);
 
         User::create($attributes);

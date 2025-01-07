@@ -4,7 +4,7 @@
     </x-slot:title>
 
     <div
-        class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 space-y-2">
+        class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 space-y-2 mx-auto mt-4">
         <h5 class="text-xl font-medium text-gray-900 dark:text-white">Schedule</h5>
 
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
