@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
 class SessionController extends Controller
@@ -28,11 +30,25 @@ class SessionController extends Controller
             'password' => ['required', 'string'],
         ]);
 
+        $key = Str::transliterate(Str::lower($request->email . '|' . $request->ip()));
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = RateLimiter::availableIn($key);
+
+            throw ValidationException::withMessages([
+                'email' => 'Please try again in ' . $seconds . ' seconds.',
+            ]);
+        }
+
         if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            RateLimiter::increment($key);
+
             throw ValidationException::withMessages([
                 'email' => 'Invalid username or password!',
             ]);
         }
+
+        RateLimiter::clear($key);
 
         $request->session()->regenerate();
 
