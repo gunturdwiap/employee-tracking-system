@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 class UpdatePasswordController extends Controller
@@ -15,7 +16,7 @@ class UpdatePasswordController extends Controller
     {
         $request->validate([
             'password' => ['required'],
-            'new_password' => ['required', 'confirmed'],
+            'new_password' => ['required', 'confirmed', Password::default()],
         ]);
 
         if (!Hash::check($request->password, $request->user()->password)) {

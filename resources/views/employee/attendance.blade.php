@@ -57,7 +57,9 @@
             document.addEventListener('DOMContentLoaded', function() {
                 startCamera();
                 setupFormHandlers();
-                updateDistance(1000);
+                // yes
+                {{ $schedule ? 'updateDistance(1000)' : '' }}
+
             });
 
             const video = document.getElementById('video');
@@ -179,8 +181,8 @@
             }
 
             function updateDistance(interval) {
-                const scheduleLat = {{ $schedule->latitude }};
-                const scheduleLong = {{ $schedule->longitude }};
+                const scheduleLat = {{ $schedule?->latitude ?? 0 }};
+                const scheduleLong = {{ $schedule?->longitude ?? 0 }};
                 const distance = document.querySelector('#distance');
 
                 setInterval(async function() {

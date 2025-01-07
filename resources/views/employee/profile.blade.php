@@ -5,7 +5,8 @@
 
     <div
         class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 space-y-2 mx-auto mt-4">
-        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Profile</h5>
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white text-center">Profile</h5>
+        <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
         <form class="grid gap-4" method="POST" action="{{ route('update-profile') }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -51,6 +52,7 @@
     <div
         class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 space-y-2 mx-auto mt-4">
         <h5 class="text-xl font-medium text-gray-900 dark:text-white">Change Password</h5>
+        <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
         <form class="grid gap-4" method="POST" action="{{ route('update-password') }}">
             @csrf
             @method('PUT')
