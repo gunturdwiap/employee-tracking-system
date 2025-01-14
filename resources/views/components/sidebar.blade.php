@@ -127,7 +127,7 @@
             @csrf
             @method('DELETE')
             <button
-                class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group hover:text-primary-600 dark:hover:text-primary-500">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -136,6 +136,5 @@
                 <span class="ml-3">Sign Out</span>
             </button>
         </form>
-
     </div>
 </aside>
