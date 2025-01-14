@@ -92,7 +92,75 @@
                     <td class="px-4 py-3">{{ $vacationRequest->status->label() }}</td>
                     <td class="px-4 py-3">
 
-                        <div class="inline-flex rounded-md shadow-sm" role="group">
+                        <button id="{{ $vacationRequest->id }}-dropdown-button"
+                            data-dropdown-toggle="{{ $vacationRequest->id }}-dropdown"
+                            class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
+                            type="button">
+                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                            </svg>
+                        </button>
+                        <div id="{{ $vacationRequest->id }}-dropdown"
+                            class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                aria-labelledby="{{ $vacationRequest->id }}-dropdown-button">
+                                <li>
+                                    <form
+                                        action="{{ route('vacation-requests.update-status', ['vacation_request' => $vacationRequest->id]) }}"
+                                        method="post" class="">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="status" value="approved">
+                                        <button type="submit"
+                                            class="hover:text-green-600 hover:dark:text-green-500 flex justify-start gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            Approve
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form
+                                        action="{{ route('vacation-requests.update-status', ['vacation_request' => $vacationRequest->id]) }}"
+                                        method="post" class="">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="status" value="rejected">
+                                        <button type="submit"
+                                            class="hover:text-red-600 hover:dark:text-red-500 flex justify-start gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                class="size-6">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            Reject
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                            <div>
+                                <a href="{{ route('vacation-requests.show', ['vacation_request' => $vacationRequest->id]) }}"
+                                    class="hover:text-primary-600 hover:dark:text-primary-500 flex gap-2 items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <svg class="text-white-600 dark:text-white-500 w-6 h-6"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    </svg>
+                                    Show
+                                </a>
+                            </div>
+                        </div>
+                        {{-- <div class="inline-flex rounded-md shadow-sm" role="group">
                             <form
                                 action="{{ route('vacation-requests.update-status', ['vacation_request' => $vacationRequest]) }}"
                                 method="post">
@@ -125,7 +193,7 @@
                                     </svg>
                                 </button>
                             </form>
-                        </div>
+                        </div> --}}
 
                     </td>
                 </tr>
