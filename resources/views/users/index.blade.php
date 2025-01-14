@@ -97,7 +97,13 @@
                         {{ $user->id }}</th>
                     <td class="px-4 py-3">{{ $user->name }}</td>
                     <td class="px-4 py-3">{{ $user->email }}</td>
-                    <td class="px-4 py-3">{{ $user->role->label() }}</td>
+                    <td class="px-4 py-3">
+                        <x-badge :text="$user->role->label()" :colorMaps="[
+                            'admin' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+                            'verificator' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+                            'employee' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                        ]"></x-badge>
+                    </td>
                     <td class="px-4 py-3">
                         <button id="{{ $user->id }}-dropdown-button"
                             data-dropdown-toggle="{{ $user->id }}-dropdown"
@@ -115,7 +121,7 @@
                                 aria-labelledby="{{ $user->id }}-dropdown-button">
                                 <li>
                                     <a href="{{ route('users.show', ['user' => $user->id]) }}"
-                                        class="hover:text-primary-600 hover:dark:text-primary-500 flex gap-2 items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        class="hover:text-primary-600 dark:hover:text-primary-500 flex gap-2 items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600">
                                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -128,7 +134,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('users.edit', ['user' => $user->id]) }}"
-                                        class="hover:text-yellow-600 hover:dark:text-yellow-500 flex gap-2 items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        class="hover:text-yellow-600 dark:hover:text-yellow-500 flex gap-2 items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             class="w-5 h-5" stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -144,7 +150,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                            class="hover:text-red-600 hover:dark:text-red-500 flex justify-start gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            class="hover:text-red-600 dark:hover:text-red-500 flex justify-start gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 ">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" class="w-5 h-5" stroke-width="1.5"
                                                 stroke="currentColor" class="size-6">

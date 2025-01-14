@@ -89,7 +89,13 @@
                     <td class="px-4 py-3">{{ $vacationRequest->start->format('Y-m-d') }}</td>
                     <td class="px-4 py-3">{{ $vacationRequest->end->format('Y-m-d') }}</td>
                     <td class="px-4 py-3">{{ Str::limit($vacationRequest->reason, 50, '...') }}</td>
-                    <td class="px-4 py-3">{{ $vacationRequest->status->label() }}</td>
+                    <td class="px-4 py-3">
+                        <x-badge :text="$vacationRequest->status->label()" :colorMaps="[
+                            'pending' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+                            'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                            'rejected' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+                        ]"></x-badge>
+                    </td>
                     <td class="px-4 py-3">
 
                         <button id="{{ $vacationRequest->id }}-dropdown-button"
@@ -114,12 +120,12 @@
                                         @method('PUT')
                                         <input type="hidden" name="status" value="approved">
                                         <button type="submit"
-                                            class="hover:text-green-600 hover:dark:text-green-500 flex justify-start gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                            class="hover:text-green-600 dark:hover:text-green-500 flex justify-start items-center gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200">
                                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-6">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    d="m4.5 12.75 6 6 9-13.5" />
                                             </svg>
                                             Approve
                                         </button>
@@ -133,12 +139,12 @@
                                         @method('PUT')
                                         <input type="hidden" name="status" value="rejected">
                                         <button type="submit"
-                                            class="hover:text-red-600 hover:dark:text-red-500 flex justify-start gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            class="hover:text-red-600 dark:hover:text-red-500 flex justify-start items-center gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-6">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    d="M6 18 18 6M6 6l12 12" />
                                             </svg>
                                             Reject
                                         </button>
@@ -147,7 +153,7 @@
                             </ul>
                             <div>
                                 <a href="{{ route('vacation-requests.show', ['vacation_request' => $vacationRequest->id]) }}"
-                                    class="hover:text-primary-600 hover:dark:text-primary-500 flex gap-2 items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    class="hover:text-primary-600 dark:hover:text-primary-500 flex justify-start items-center gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200">
                                     <svg class="text-white-600 dark:text-white-500 w-6 h-6"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-6">

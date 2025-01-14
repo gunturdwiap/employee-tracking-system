@@ -123,7 +123,7 @@
                 <th scope="col" class="px-4 py-3">date</th>
                 <th scope="col" class="px-4 py-3">name</th>
                 <th scope="col" class="px-4 py-3">check in</th>
-                <th scope="col" class="px-4 py-3">check_out</th>
+                <th scope="col" class="px-4 py-3">check out</th>
                 <th scope="col" class="px-4 py-3">status</th>
                 <th scope="col" class="px-4 py-3">verification status</th>
                 <th scope="col" class="px-4 py-3">
@@ -140,8 +140,21 @@
                     <td class="px-4 py-3">{{ $attendance->user->name }}</td>
                     <td class="px-4 py-3">{{ $attendance->check_in_time?->format('H:i') }}</td>
                     <td class="px-4 py-3">{{ $attendance->check_out_time?->format('H:i') }}</td>
-                    <td class="px-4 py-3">{{ $attendance->status->label() }}</td>
-                    <td class="px-4 py-3">{{ $attendance->verification_status->label() }}</td>
+                    <td class="px-4 py-3">
+                        <x-badge :text="$attendance->status->label()" :colorMaps="[
+                            'on time' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                            'late' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+                            'vacation' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+                            'absent' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+                        ]"></x-badge>
+                    </td>
+                    <td class="px-4 py-3">
+                        <x-badge :text="$attendance->verification_status->label()" :colorMaps="[
+                            'pending' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+                            'approved' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                            'rejected' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+                        ]"></x-badge>
+                    </td>
                     <td class="px-4 py-3">
                         <button id="{{ $attendance->id }}-dropdown-button"
                             data-dropdown-toggle="{{ $attendance->id }}-dropdown"
@@ -164,12 +177,12 @@
                                         @method('PUT')
                                         <input type="hidden" name="verification_status" value="approved">
                                         <button type="submit"
-                                            class="hover:text-green-600 hover:dark:text-green-500 flex justify-start gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            class="hover:text-green-600 dark:hover:text-green-500 flex justify-start gap-2 items-center w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-6">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    d="m4.5 12.75 6 6 9-13.5" />
                                             </svg>
                                             Approve
                                         </button>
@@ -182,12 +195,12 @@
                                         @method('PUT')
                                         <input type="hidden" name="verification_status" value="rejected">
                                         <button type="submit"
-                                            class="hover:text-red-600 hover:dark:text-red-500 flex justify-start gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-                                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                            class="hover:text-red-600 dark:hover:text-red-500 flex justify-start gap-2 items-center w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                 class="size-6">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    d="M6 18 18 6M6 6l12 12" />
                                             </svg>
                                             Reject
                                         </button>
@@ -196,7 +209,7 @@
                             </ul>
                             <div>
                                 <a href="{{ route('attendances.show', ['attendance' => $attendance->id]) }}"
-                                    class="hover:text-primary-600 hover:dark:text-primary-500 flex gap-2 items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    class="hover:text-primary-600 dark:hover:text-primary-500 flex justify-start gap-2 items-center w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200">
                                     <svg class="text-white-600 dark:text-white-500 w-6 h-6"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="size-6">
