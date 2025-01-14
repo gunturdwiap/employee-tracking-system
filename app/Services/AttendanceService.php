@@ -119,10 +119,10 @@ class AttendanceService
 
     public function isWithinCheckOutTime(Carbon $endTime, Carbon $checkOutTime)
     {
-        return $checkOutTime->between(
-            $endTime->subMinutes(self::GRACE_PERIOD),
-            $endTime->addMinutes(self::GRACE_PERIOD)
-        );
+        $checkOutTimeBefore = $checkOutTime->copy()->subMinutes(self::GRACE_PERIOD);
+        $checkOutTimeAfter = $checkOutTime->copy()->addMinutes(self::GRACE_PERIOD);
+
+        return $checkOutTime->between($checkOutTimeBefore, $checkOutTimeAfter);
     }
 
     public function isWithinRadius(float $lat1, float $lon1, float $lat2, float $lon2, int $radius)
