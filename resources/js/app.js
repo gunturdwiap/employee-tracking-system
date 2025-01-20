@@ -3,6 +3,13 @@ import 'flowbite';
 import L from "leaflet";
 import ApexCharts from 'apexcharts';
 import 'leaflet/dist/leaflet.css';
+import Swal from 'sweetalert2';
+import { swalConfirmSubmit, swalError, swalSuccess } from './customSwal';
+
+window.Swal = Swal;
+window.swalSuccess = swalSuccess;
+window.swalError = swalError;
+window.swalConfirmSubmit = swalConfirmSubmit;
 
 window.ApexCharts = ApexCharts;
 

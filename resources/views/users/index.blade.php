@@ -144,7 +144,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <form onsubmit="return confirm('Are you sure?')"
+                                    <form onsubmit="return swalConfirmSubmit(event, this.id)"
+                                        id="delete-{{ $user->id }}"
                                         action="{{ route('users.destroy', ['user' => $user->id]) }}" method="post"
                                         class="">
                                         @csrf

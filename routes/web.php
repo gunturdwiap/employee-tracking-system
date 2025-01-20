@@ -128,7 +128,7 @@ Route::middleware(['auth', 'can:access-admin-panel'])->prefix('/admin')->group(f
     Route::get('/attendance-trends', GetAttendanceTrendsController::class)
         ->name('attendances.trends');
 
-    Route::get('/profile', function(Request $request){
+    Route::get('/profile', function (Request $request) {
         return view('admin-profile', ['user' => $request->user()]);
     })->name('profile');
 });

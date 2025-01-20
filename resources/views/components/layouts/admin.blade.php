@@ -33,7 +33,7 @@
                 <div class="mx-auto max-w-screen-xl px-1 lg:px-4">
 
                     {{ $breadcrumb }}
-                    
+
                     <h2
                         class="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl dark:text-white">
                         {{ $title }}
@@ -44,8 +44,7 @@
                 </div>
             </section>
         </main>
-        <x-toast></x-toast>
-
+        <x-alert></x-alert>
         @stack('scripts')
 
     </div>

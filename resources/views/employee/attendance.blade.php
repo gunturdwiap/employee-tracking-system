@@ -53,7 +53,7 @@
     </div>
 
     @push('scripts')
-        <script>
+        <script type="module">
             document.addEventListener('DOMContentLoaded', function() {
                 startCamera();
                 setupFormHandlers();
@@ -75,7 +75,7 @@
                     });
                     video.srcObject = stream;
                 } catch (error) {
-                    alert('Camera permission is required.');
+                    swalError('Camera permission is required.');
                     window.location.href = redirectUrl;
                 }
             }
@@ -91,7 +91,7 @@
                         longitude: position.coords.longitude
                     };
                 } catch (error) {
-                    alert('Location permission is required.');
+                    swalError('Location permission is required.');
                     window.location.href = redirectUrl;
                 }
             }

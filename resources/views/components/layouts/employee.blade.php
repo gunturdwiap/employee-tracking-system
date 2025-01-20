@@ -31,7 +31,7 @@
     <!-- Bottom Navigation Bar -->
     <x-bottom-navbar></x-bottom-navbar>
 
-    <x-toast></x-toast>
+    <x-alert></x-alert>
 
     @stack('scripts')
 </body>

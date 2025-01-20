@@ -36,7 +36,8 @@
         </div>
     </section>
 
-    <x-toast></x-toast>
+    <x-alert></x-alert>
+    @stack('scripts')
 </body>
 
 </html>

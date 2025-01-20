@@ -16,6 +16,7 @@
     "dependencies": {
         "apexcharts": "^4.1.0",
         "flowbite": "^2.5.2",
-        "leaflet": "^1.9.4"
+        "leaflet": "^1.9.4",
+        "sweetalert2": "^11.15.10"
     }
 }
