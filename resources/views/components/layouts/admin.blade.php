@@ -7,8 +7,6 @@
 
     <title>{{ $title ? $title . ' - ' . config('app.name', '') : config('app.name', 'title') }}</title>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(

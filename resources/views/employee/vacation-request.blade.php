@@ -8,13 +8,13 @@
         <h5 class="text-xl font-medium text-gray-900 dark:text-white">Vacation Request</h5>
         <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
 
-        <form action="" method="post" x-data="{ today: (new Date()).toISOString().split('T')[0] }" class="grid gap-4">
+        <form action="{{ route('employee.vacation') }}" method="post" class="grid gap-4">
             @csrf
             <div>
                 <x-forms.label for="start">
                     Start date
                 </x-forms.label>
-                <x-forms.input name="start" type="date" x-bind:min="today"></x-forms.input>
+                <x-forms.input id="start" name="start" type="date"></x-forms.input>
                 <x-forms.error name="start"></x-forms.error>
             </div>
 
@@ -22,7 +22,7 @@
                 <x-forms.label for="end">
                     End date
                 </x-forms.label>
-                <x-forms.input name="end" type="date" x-bind:min="today"></x-forms.input>
+                <x-forms.input id="end" name="end" type="date"></x-forms.input>
                 <x-forms.error name="end"></x-forms.error>
             </div>
 
@@ -42,5 +42,14 @@
         </form>
     </div>
 
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const today = new Date().toISOString().split('T')[0];
 
+                document.getElementById('start').setAttribute('min', today);
+                document.getElementById('end').setAttribute('min', today);
+            });
+        </script>
+    @endpush
 </x-layouts.employee>
