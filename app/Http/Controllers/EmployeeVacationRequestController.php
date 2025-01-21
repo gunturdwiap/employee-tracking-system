@@ -11,13 +11,22 @@ class EmployeeVacationRequestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $vacationRequests = VacationRequest::query()
-            ->where('user_id', auth()->id())
-            ->paginate(15);
+            ->where('user_id', $request->user()->id);
 
-        return $vacationRequests;
+        $request->validate([
+            'status' => ['nullable', 'array'],
+        ]);
+
+        if ($request->filled('status')) {
+            $vacationRequests->whereIn('status', $request->status);
+        }
+
+        return view('employee.vacation-request-history', [
+            'vacationRequests' => $vacationRequests->paginate(15)
+        ]);
     }
 
     /**
@@ -47,7 +56,6 @@ class EmployeeVacationRequestController extends Controller
                     ->whereDate('end', '>=', $request->start);  // Existing vacation ends after or on the new request's start date
             })
             ->exists();
-
 
         if ($existingRequest) {
             return back()->with('danger', 'You already have an approved vacation request for this day.');

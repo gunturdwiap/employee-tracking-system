@@ -37,7 +37,11 @@
         </x-bottom-navbar-button>
 
         <!-- Profile Button -->
-        <x-bottom-navbar-button href="{{ route('employee.profile') }}" :active="request()->routeIs('employee.profile')">
+        <x-bottom-navbar-button href="{{ route('employee.profile') }}" :active="request()->routeIs(
+            'employee.profile',
+            'employee.vacation-request-history',
+            'employee.attendance-history',
+        )">
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">

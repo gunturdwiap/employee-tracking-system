@@ -166,6 +166,12 @@ Route::middleware(['auth', 'can:access-employee-menu', 'verified'])
                 'user' => $request->user()
             ]);
         })->name('employee.profile');
+
+        Route::get('/attendance-history', [EmployeeAttendanceController::class, 'index'])
+            ->name('employee.attendance-history');
+
+        Route::get('/vacation-request-history', [EmployeeVacationRequestController::class, 'index'])
+            ->name('employee.vacation-request-history');
     });
 
 Route::middleware(['auth'])->group(function () {
