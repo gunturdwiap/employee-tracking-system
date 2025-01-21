@@ -18,8 +18,9 @@ class UpdateProfileController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
             'photo' => [
                 'nullable',
+                'mimes:jpg,jpeg,png',
                 File::image()
-                    ->max(12 * 1024)
+                    ->max(2 * 1024),
             ],
         ]);
 
