@@ -1,5 +1,13 @@
-<nav
-    class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
+@php
+    $classes =
+        'bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50';
+
+    if (!auth()->user()) {
+        $classes = 'bg-gray-50 dark:bg-gray-900 border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-50';
+    }
+@endphp
+
+<nav class="{{ $classes }}">
     <div class="flex flex-wrap justify-between items-center">
         <div class="flex justify-start items-center">
 
@@ -23,14 +31,16 @@
                 </button>
             @endcan
 
-            <a href="#" class="flex items-center justify-between mr-4">
+            @auth
+                <a href="#" class="flex items-center justify-between mr-4">
 
-                {{-- <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" /> --}}
-                <div class="mr-3 text-center text-3xl">🥶</div>
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                    {{ config('app.name') }}
-                </span>
-            </a>
+                    {{-- <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" /> --}}
+                    <div class="mr-3 text-center text-3xl">🥶</div>
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                        {{ config('app.name') }}
+                    </span>
+                </a>
+            @endauth
 
         </div>
         <div class="flex items-center lg:order-2 gap-2">
@@ -51,47 +61,48 @@
 
             </button>
 
-            <!-- Dropdown menu -->
-            <button type="button"
-                class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
-                <span class="sr-only">Open user menu</span>
-                <img class="w-8 h-8 rounded-full"
-                    src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : 'https://ui-avatars.com/api/?name=' . auth()->user()->name }}"
-                    alt="user photo" />
-            </button>
-            <!-- Dropdown menu -->
-            <div class="hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
-                id="dropdown">
-                <div class="py-3 px-4">
-                    <span
-                        class="block text-sm font-semibold text-gray-900 dark:text-white">{{ auth()->user()->name }}</span>
-                    <span
-                        class="block text-sm text-gray-900 truncate dark:text-white">{{ auth()->user()->email }}</span>
-                </div>
-                <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
-                    <li>
-                        @can('access-admin-panel')
-                            <a href="{{ route('profile') }}"
-                                class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My
-                                profile</a>
-                        @endcan
-                        @can('access-employee-menu')
-                            <a href="{{ route('employee.profile') }}"
-                                class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My
-                                profile</a>
-                        @endcan
-                    </li>
-                    {{-- <li>
+            @auth
+                <!-- Dropdown menu -->
+                <button type="button"
+                    class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
+                    <span class="sr-only">Open user menu</span>
+                    <img class="w-8 h-8 rounded-full"
+                        src="{{ auth()->user()->photo ? asset('storage/' . auth()->user()->photo) : 'https://ui-avatars.com/api/?name=' . auth()->user()->name }}"
+                        alt="user photo" />
+                </button>
+                <!-- Dropdown menu -->
+                <div class="hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
+                    id="dropdown">
+                    <div class="py-3 px-4">
+                        <span
+                            class="block text-sm font-semibold text-gray-900 dark:text-white">{{ auth()->user()->name }}</span>
+                        <span
+                            class="block text-sm text-gray-900 truncate dark:text-white">{{ auth()->user()->email }}</span>
+                    </div>
+                    <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
+                        <li>
+                            @can('access-admin-panel')
+                                <a href="{{ route('profile') }}"
+                                    class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My
+                                    profile</a>
+                            @endcan
+                            @can('access-employee-menu')
+                                <a href="{{ route('employee.profile') }}"
+                                    class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My
+                                    profile</a>
+                            @endcan
+                        </li>
+                        {{-- <li>
                         <a href="#"
                             class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Account
                             settings</a>
                     </li> --}}
-                    <li>
-                        {{-- <a href="#"
+                        <li>
+                            {{-- <a href="#"
                             class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Account
                             settings</a> --}}
-                        {{-- <button id="theme-toggle" type="button"
+                            {{-- <button id="theme-toggle" type="button"
                             class="block w-full py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">
                             <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -106,22 +117,23 @@
                             </svg>
 
                         </button> --}}
-                    </li>
-                </ul>
+                        </li>
+                    </ul>
 
-                <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
-                    <li>
-                        <form action="{{ route('logout') }}" method="post"
-                            class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            @csrf
-                            @method('DELETE')
-                            <button>
-                                Sign out
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+                    <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
+                        <li>
+                            <form action="{{ route('logout') }}" method="post"
+                                class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                @csrf
+                                @method('DELETE')
+                                <button>
+                                    Sign out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @endauth
         </div>
     </div>
 </nav>
