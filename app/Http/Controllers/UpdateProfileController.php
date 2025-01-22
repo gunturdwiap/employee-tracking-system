@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateProfileController extends Controller
 {
@@ -15,7 +16,7 @@ class UpdateProfileController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['required', 'string', 'max:255', 'email', Rule::unique('users')->ignore($request->user()->id)],
             'photo' => [
                 'nullable',
                 'mimes:jpg,jpeg,png',
