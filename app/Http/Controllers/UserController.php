@@ -101,7 +101,13 @@ class UserController extends Controller
             'email' => ['required', 'email', Rule::unique('users')->ignore($user->id), 'max:255'],
         ]);
 
-        $user->update($attributes);
+        $user->fill($attributes);
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
 
         return to_route('users.edit', ['user' => $user])->with('success', 'User updated');
     }

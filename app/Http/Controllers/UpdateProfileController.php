@@ -38,7 +38,13 @@ class UpdateProfileController extends Controller
             $attributes['photo'] = $path;
         }
 
-        $user->update($attributes);
+        $user->fill($attributes);
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
 
         return back()->with('success', 'Profile updated successfully');
     }

@@ -11,14 +11,11 @@
                 Email Verification Required
             </h1>
             <p class="text-gray-700 dark:text-gray-300">
-                Thank you for registering! Before you can log in, please verify your email address.
-            </p>
-            <p class="text-gray-700 dark:text-gray-300">
                 We have sent an email to <strong>{{ auth()->user()->email }}</strong> with a verification link.
                 Please check your inbox and click the link to verify your email address.
             </p>
             <p class="text-gray-700 dark:text-gray-300">
-                If you did not receive the email, please enter your email address below to request another verification
+                If you did not receive the email, please click the button below to request another verification
                 link.
             </p>
 
@@ -30,11 +27,6 @@
                 </button>
             </form>
 
-            {{-- <div class="flex justify-center mt-4">
-                <a href="{{ route('login') }}"
-                    class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Return to
-                    Login</a>
-            </div> --}}
         </div>
     </div>
 
