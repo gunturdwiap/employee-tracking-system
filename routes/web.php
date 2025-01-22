@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\GetAttendanceTrendsController;
-use App\Http\Controllers\UpdatePasswordController;
-use App\Http\Controllers\UpdateProfileController;
 use App\Models\User;
+use App\Enums\UserRole;
 use App\Models\Schedule;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
@@ -13,9 +11,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\UpdateProfileController;
+use App\Http\Controllers\UpdatePasswordController;
 use App\Http\Controllers\VacationRequestController;
 use App\Http\Controllers\VerifyAttendanceController;
 use App\Http\Controllers\EmployeeAttendanceController;
+use App\Http\Controllers\GetAttendanceTrendsController;
 use App\Http\Controllers\GetAttendanceOverviewController;
 use App\Http\Controllers\UpdateVacationRequestController;
 use App\Http\Controllers\EmployeeVacationRequestController;
@@ -25,7 +26,7 @@ use App\Http\Controllers\EmployeeVacationRequestController;
 require __DIR__ . '/auth.php';
 
 // Admin & Verificator
-Route::middleware(['auth', 'can:access-admin-panel'])->prefix('/admin')->group(function () {
+Route::middleware(['auth', 'can:access-admin-panel', 'verified'])->prefix('/admin')->group(function () {
     // Dashboard
     Route::get('/', DashboardController::class)->name('dashboard');
 
@@ -137,7 +138,6 @@ Route::middleware(['auth', 'can:access-admin-panel'])->prefix('/admin')->group(f
 // Employee
 Route::middleware(['auth', 'can:access-employee-menu', 'verified'])
     ->group(function () {
-        Route::redirect('/', '/attendance');
         Route::get('/attendance', [EmployeeAttendanceController::class, 'create'])
             ->name('employee.attendance');
 
@@ -175,8 +175,11 @@ Route::middleware(['auth', 'can:access-employee-menu', 'verified'])
     });
 
 Route::middleware(['auth'])->group(function () {
-    Route::put('upddate-profile', UpdateProfileController::class)
+    Route::put('update-profile', UpdateProfileController::class)
         ->name('update-profile');
     Route::put('update-password', UpdatePasswordController::class)
         ->name('update-password');
+    Route::get('/', function (Request $request) {
+        return $request->user()->role === UserRole::EMPLOYEE ? redirect('/attendance') : redirect('/admin');
+    });
 });
