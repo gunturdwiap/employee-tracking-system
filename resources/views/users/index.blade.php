@@ -174,7 +174,7 @@
         </x-slot:body>
 
         <x-slot:pagination>
-            {{ $users->onEachSide(3)->links() }}
+            {{ $users->withQueryString()->onEachSide(3)->links() }}
         </x-slot:pagination>
 
     </x-table>

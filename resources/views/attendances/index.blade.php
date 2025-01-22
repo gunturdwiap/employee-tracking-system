@@ -136,7 +136,7 @@
             @forelse ($attendances as $attendance)
                 <tr class="border-b dark:border-gray-700">
                     <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ $attendance->date->format('Y-m-d') }}</th>
+                        {{ $attendance->date->format('l, Y-m-d') }}</th>
                     <td class="px-4 py-3">{{ $attendance->user->name }}</td>
                     <td class="px-4 py-3">{{ $attendance->check_in_time?->format('H:i') }}</td>
                     <td class="px-4 py-3">{{ $attendance->check_out_time?->format('H:i') }}</td>
@@ -280,7 +280,7 @@
         </x-slot:body>
 
         <x-slot:pagination>
-            {{ $attendances->onEachSide(3)->links() }}
+            {{ $attendances->withQueryString()->onEachSide(3)->links() }}
         </x-slot:pagination>
     </x-table>
 

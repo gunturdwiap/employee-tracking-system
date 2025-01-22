@@ -213,7 +213,7 @@
         </x-slot:body>
 
         <x-slot:pagination>
-            {{ $vacationRequests->onEachSide(3)->links() }}
+            {{ $vacationRequests->withQueryString()->onEachSide(3)->links() }}
         </x-slot:pagination>
 
     </x-table>
