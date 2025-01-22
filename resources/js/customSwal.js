@@ -8,7 +8,7 @@ const BASE_CLASS = {
 }
 
 export function swalError(text = 'Uh oh ') {
-    Swal.fire({
+    return Swal.fire({
         showConfirmButton: true,
         icon: 'error',
         customClass: {

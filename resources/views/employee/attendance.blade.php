@@ -67,6 +67,7 @@
             const context = canvas.getContext('2d');
             const redirectUrl = '{{ route('employee.schedule') }}'
             let stream;
+            let errorShown;
 
             async function startCamera() {
                 try {
@@ -75,8 +76,8 @@
                     });
                     video.srcObject = stream;
                 } catch (error) {
-                    swalError('Camera permission is required.');
-                    window.location.href = redirectUrl;
+                    swalError('Camera permission is required.')
+                        .then(() => window.location.href = redirectUrl);
                 }
             }
 
@@ -91,8 +92,14 @@
                         longitude: position.coords.longitude
                     };
                 } catch (error) {
-                    swalError('Location permission is required.');
-                    window.location.href = redirectUrl;
+                    if (errorShown) {
+                        return;
+                    }
+
+                    swalError('Location permission is required.')
+                        .then(() => window.location.href = redirectUrl);
+
+                    errorShown = true;
                 }
             }
 
@@ -124,14 +131,14 @@
                 const dataTransfer = new DataTransfer();
 
                 // Log the file for debugging
-                console.log('Captured photo file:', photoFile);
+                // console.log('Captured photo file:', photoFile);
 
                 dataTransfer.items.add(photoFile);
                 const fileInput = document.getElementById(photoInputId);
                 fileInput.files = dataTransfer.files;
 
                 // Log the file input for debugging
-                console.log('File input after setting files:', fileInput.files);
+                // console.log('File input after setting files:', fileInput.files);
 
                 document.getElementById(latitudeInputId).value = latitude;
                 document.getElementById(longitudeInputId).value = longitude;
@@ -191,10 +198,10 @@
                         longitude
                     } = await getLocation();
                     let result = Math.round(haversineDistance(latitude, longitude, scheduleLat, scheduleLong));
-                    console.log(result, {
-                        latitude,
-                        longitude
-                    });
+                    // console.log(result, {
+                    //     latitude,
+                    //     longitude
+                    // });
                     distance.innerHTML = `Jarak dari pusat lokasi : ${result} m`;
                 }, interval);
             }
