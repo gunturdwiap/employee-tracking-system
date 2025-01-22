@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Validation\Rules\Password;
 
 class RegistrationController extends Controller
 {
@@ -22,7 +23,7 @@ class RegistrationController extends Controller
         $request->validate([
             'name' => ['required', 'max:255'],
             'email' => ['required', 'unique:users,email', 'email', 'max:255'],
-            'password' => ['required', 'confirmed', 'min:5']
+            'password' => ['required', 'confirmed', Password::default()]
         ]);
 
         $user = User::create([
