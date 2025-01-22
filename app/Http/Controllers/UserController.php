@@ -37,7 +37,7 @@ class UserController extends Controller
         }
 
         return view('users.index', [
-            'users' => $user->paginate(5)->withQueryString()
+            'users' => $user->paginate(15)
         ]);
     }
 

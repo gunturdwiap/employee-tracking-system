@@ -13,7 +13,7 @@ class AttendanceController extends Controller
      */
     public function index(Request $request)
     {
-        $attendances = Attendance::query()->with(['user']);
+        $attendances = Attendance::query()->with(['user'])->latest();
 
         $request->validate([
             'status' => ['nullable'],

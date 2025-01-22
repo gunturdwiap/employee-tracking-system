@@ -14,7 +14,7 @@ class VacationRequestController extends Controller
      */
     public function index(Request $request)
     {
-        $vacationRequests = VacationRequest::with(['user']);
+        $vacationRequests = VacationRequest::with(['user'])->latest();
 
         $request->validate([
             'status' => ['nullable', 'array'],
