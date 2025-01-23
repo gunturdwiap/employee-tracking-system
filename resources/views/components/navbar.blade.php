@@ -3,7 +3,7 @@
         'bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50';
 
     if (!auth()->user()) {
-        $classes = 'bg-gray-50 dark:bg-gray-900 border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-50';
+        $classes = 'bg-transparent border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-50';
     }
 @endphp
 
@@ -35,9 +35,9 @@
                 <a href="#" class="flex items-center justify-between mr-4">
 
                     {{-- <img src="https://flowbite.s3.amazonaws.com/logo.svg" class="mr-3 h-8" /> --}}
-                    <div class="mr-3 text-center text-3xl">🥶</div>
+                    {{-- <div class="mr-3 text-center text-3xl">🥶</div> --}}
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                        {{ config('app.name') }}
+                        {{ str_replace('-', ' ', config('app.name')) }}
                     </span>
                 </a>
             @endauth
