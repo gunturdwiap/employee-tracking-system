@@ -174,7 +174,7 @@ Route::middleware(['auth', 'can:access-employee-menu', 'verified'])
             ->name('employee.vacation-request-history');
     });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('update-profile', UpdateProfileController::class)
         ->name('update-profile');
     Route::put('update-password', UpdatePasswordController::class)

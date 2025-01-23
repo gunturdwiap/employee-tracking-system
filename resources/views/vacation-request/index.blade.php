@@ -152,7 +152,7 @@
                                 </li>
                             </ul>
                             <div>
-                                <a href="{{ route('vacation-requests.show', ['vacation_request' => $vacationRequest->id]) }}"
+                                <button data-vacation-request-id="{{ $vacationRequest->id }}"
                                     class="hover:text-primary-600 dark:hover:text-primary-500 flex justify-start items-center gap-2 w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200">
                                     <svg class="text-white-600 dark:text-white-500 w-6 h-6"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -163,48 +163,13 @@
                                             d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     </svg>
                                     Show
-                                </a>
+                                </button>
                             </div>
                         </div>
-                        {{-- <div class="inline-flex rounded-md shadow-sm" role="group">
-                            <form
-                                action="{{ route('vacation-requests.update-status', ['vacation_request' => $vacationRequest]) }}"
-                                method="post">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="status" value="approved">
-                                <button
-                                    class="inline-flex items-center p-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                                    <svg class="text-green-600 dark:text-green-500 w-6 h-6"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                    </svg>
-                                </button>
-                            </form>
-                            <form
-                                action="{{ route('vacation-requests.update-status', ['vacation_request' => $vacationRequest]) }}"
-                                method="post">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="status" value="rejected">
-                                <button
-                                    class="inline-flex items-center p-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                                    <svg class="text-red-600 dark:text-red-500 w-6 h-6"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                    </svg>
-                                </button>
-                            </form>
-                        </div> --}}
-
                     </td>
                 </tr>
             @empty
-                <tr xo class="border-b dark:border-gray-700">
+                <tr class="border-b dark:border-gray-700">
                     <td colspan="6" class="px-4 py-3 text-center">
                         Not Found
                     </td>
@@ -218,4 +183,54 @@
 
     </x-table>
 
+    @push('scripts')
+        <script type="module">
+            const url = '{{ url()->current() }}';
+            console.log(url);
+
+            function modalTemplate(vacationRequest) {
+                return `
+                    <div class="flex justify-start mb-4 rounded-t sm:mb-5">
+                        <div class="text-xl text-gray-900 md:text-xl dark:text-white">
+                            <h3 class="font-semibold ">
+                                ${vacationRequest.user.name}
+                            </h3>
+                        </div>
+                    </div>
+                    <dl class="text-start">
+                        <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Start</dt>
+                        <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">${vacationRequest.start}</dd>
+                        <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">End</dt>
+                        <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">${vacationRequest.end}</dd>
+                        <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Reason</dt>
+                        <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">${vacationRequest.reason}</dd>
+                    </dl>
+                `;
+            }
+
+            async function fetchData(id) {
+                swalLoading();
+                try {
+                    const response = await fetch(`${url}/${id}`);
+
+                    if (!response.ok) {
+                        throw new Error(`Response status: ${response.status}`);
+                    }
+
+                    const json = await response.json();
+                    swalModal('Vacation Request Detail', modalTemplate(json.data));
+                } catch (error) {
+                    console.log(error);
+                    swalError('Error fetching data');
+                }
+            }
+
+            document.querySelectorAll('button[data-vacation-request-id]').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const vacationRequestId = e.target.getAttribute('data-vacation-request-id');
+                    fetchData(vacationRequestId);
+                });
+            });
+        </script>
+    @endpush
 </x-layouts.admin>

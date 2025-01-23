@@ -57,7 +57,9 @@ class VacationRequestController extends Controller
      */
     public function show(VacationRequest $vacationRequest)
     {
-        return $vacationRequest;
+        $vacationRequest->load(['user']);
+
+        return response()->json(['data' => $vacationRequest]);
     }
 
     /**
