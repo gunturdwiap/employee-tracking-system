@@ -55,3 +55,22 @@ themeToggleBtn.addEventListener('click', function () {
     }
 
 });
+
+window.resetForm = (button) => {
+    const form = button.closest('form');
+    const inputs = form.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        if (input.type === 'checkbox' || input.type === 'radio') {
+            input.checked = false;
+        } else if (input.type === 'file') {
+            input.value = '';
+        } else {
+            input.value = '';
+        }
+    });
+
+    const selects = form.querySelectorAll('select');
+    selects.forEach(select => {
+        select.selectedIndex = 0;
+    });
+}

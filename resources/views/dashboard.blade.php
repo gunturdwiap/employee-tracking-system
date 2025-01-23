@@ -190,7 +190,11 @@
         <script>
             // Save scroll position before refresh
             window.addEventListener('beforeunload', function() {
-                sessionStorage.setItem('scrollPosition', window.scrollY);
+                if (sessionStorage.getItem('scrollPosition')) {
+                    sessionStorage.removeItem('scrollPosition');
+                } else {
+                    sessionStorage.setItem('scrollPosition', window.scrollY);
+                }
             });
 
             // Restore scroll position after page load
@@ -202,7 +206,6 @@
                             top: parseInt(scrollPosition, 10),
                             behavior: 'smooth' // Smooth scroll
                         });
-                        sessionStorage.removeItem('scrollPosition'); // Clear the stored position
                     }, 75); // Delay for smoother experience
                 }
             });
