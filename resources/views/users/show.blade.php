@@ -11,7 +11,7 @@
         ]" />
     </x-slot:breadcrumb>
 
-    <div
+    {{-- <div
         class="grid grid-cols-2 gap-6 border-b border-t border-gray-200 py-4 dark:border-gray-700 md:py-8 lg:grid-cols-4 xl:gap-16">
         <div>
             <svg class="mb-2 h-8 w-8 text-gray-400 dark:text-gray-500" aria-hidden="true"
@@ -123,7 +123,7 @@
                 vs 1 last 3 months
             </p>
         </div>
-    </div>
+    </div> --}}
 
     <div class="py-4 md:py-8">
         <div class="mb-4 grid gap-4 sm:grid-cols-2 sm:gap-8 lg:gap-16">
@@ -142,59 +142,21 @@
                     <dt class="font-semibold text-gray-900 dark:text-white">Email Address</dt>
                     <dd class="text-gray-500 dark:text-gray-400">{{ $user->email }}</dd>
                 </dl>
-                <dl>
-                    <dt class="font-semibold text-gray-900 dark:text-white">Home Address</dt>
-                    <dd class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        <svg class="hidden h-5 w-5 shrink-0 text-gray-400 dark:text-gray-500 lg:inline"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2"
-                                d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5" />
-                        </svg>
-                        2 Miles Drive, NJ 071, New York, United States of America
-                    </dd>
-                </dl>
-                <dl>
-                    <dt class="font-semibold text-gray-900 dark:text-white">Delivery Address</dt>
-                    <dd class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        <svg class="hidden h-5 w-5 shrink-0 text-gray-400 dark:text-gray-500 lg:inline"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M13 7h6l2 4m-8-4v8m0-8V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v9h2m8 0H9m4 0h2m4 0h2v-4m0 0h-5m3.5 5.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Zm-10 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z" />
-                        </svg>
-                        9th St. PATH Station, New York, United States of America
-                    </dd>
-                </dl>
             </div>
             <div class="space-y-4">
                 <dl>
-                    <dt class="font-semibold text-gray-900 dark:text-white">Phone Number</dt>
-                    <dd class="text-gray-500 dark:text-gray-400">+1234 567 890 / +12 345 678</dd>
-                </dl>
-                <dl>
-                    <dt class="font-semibold text-gray-900 dark:text-white">Favorite pick-up point</dt>
-                    <dd class="flex items-center gap-1 text-gray-500 dark:text-gray-400">
-                        <svg class="hidden h-5 w-5 shrink-0 text-gray-400 dark:text-gray-500 lg:inline"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M6 12c.263 0 .524-.06.767-.175a2 2 0 0 0 .65-.491c.186-.21.333-.46.433-.734.1-.274.15-.568.15-.864a2.4 2.4 0 0 0 .586 1.591c.375.422.884.659 1.414.659.53 0 1.04-.237 1.414-.659A2.4 2.4 0 0 0 12 9.736a2.4 2.4 0 0 0 .586 1.591c.375.422.884.659 1.414.659.53 0 1.04-.237 1.414-.659A2.4 2.4 0 0 0 16 9.736c0 .295.052.588.152.861s.248.521.434.73a2 2 0 0 0 .649.488 1.809 1.809 0 0 0 1.53 0 2.03 2.03 0 0 0 .65-.488c.185-.209.332-.457.433-.73.1-.273.152-.566.152-.861 0-.974-1.108-3.85-1.618-5.121A.983.983 0 0 0 17.466 4H6.456a.986.986 0 0 0-.93.645C5.045 5.962 4 8.905 4 9.736c.023.59.241 1.148.611 1.567.37.418.865.667 1.389.697Zm0 0c.328 0 .651-.091.94-.266A2.1 2.1 0 0 0 7.66 11h.681a2.1 2.1 0 0 0 .718.734c.29.175.613.266.942.266.328 0 .651-.091.94-.266.29-.174.537-.427.719-.734h.681a2.1 2.1 0 0 0 .719.734c.289.175.612.266.94.266.329 0 .652-.091.942-.266.29-.174.536-.427.718-.734h.681c.183.307.43.56.719.734.29.174.613.266.941.266a1.819 1.819 0 0 0 1.06-.351M6 12a1.766 1.766 0 0 1-1.163-.476M5 12v7a1 1 0 0 0 1 1h2v-5h3v5h7a1 1 0 0 0 1-1v-7m-5 3v2h2v-2h-2Z" />
-                        </svg>
-                        Herald Square, 2, New York, United States of America
+                    <dt class="font-semibold text-gray-900 dark:text-white">Role</dt>
+                    <dd class="text-gray-500 dark:text-gray-400">
+                        <x-badge :text="$user->role->label()" :colorMaps="[
+                            'admin' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+                            'verificator' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+                            'employee' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                        ]"></x-badge>
                     </dd>
-                </dl>
-                <dl>
-                    <dt class="font-semibold text-gray-900 dark:text-white">My Companies</dt>
-                    <dd class="text-gray-500 dark:text-gray-400">FLOWBITE LLC, Fiscal code: 18673557</dd>
                 </dl>
             </div>
         </div>
-        <button type="button" data-modal-target="accountInformationModal2"
-            data-modal-toggle="accountInformationModal2"
+        <a href="{{ route('users.edit', $user) }}" type="button"
             class="inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 sm:w-auto">
             <svg class="-ms-0.5 me-1.5 h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                 height="24" fill="none" viewBox="0 0 24 24">
@@ -202,8 +164,8 @@
                     d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z">
                 </path>
             </svg>
-            Edit Account Information
-        </button>
+            Edit User
+        </a>
     </div>
 
     <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
@@ -243,7 +205,7 @@
                         <tr class="border-b dark:border-gray-700">
                             <th scope="row"
                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                {{ $schedule->day->name }}</th>
+                                {{ $schedule->day->label() }}</th>
                             <td class="px-4 py-3">{{ $schedule->work_start_time->format('H:i') }}</td>
                             <td class="px-4 py-3">{{ $schedule->work_end_time->format('H:i') }}</td>
                             <td class="px-4 py-3 flex items-center justify-end">
@@ -257,7 +219,8 @@
                                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                         </svg>
                                     </a>
-                                    <form onsubmit="return confirm('ykin?')"
+                                    <form onsubmit="return swalConfirmSubmit(event, this.id)"
+                                        id="deleteForm-{{ $schedule->id }}"
                                         action="{{ route('schedules.destroy', ['schedule' => $schedule, 'user' => $user]) }}"
                                         method="post">
                                         @csrf
