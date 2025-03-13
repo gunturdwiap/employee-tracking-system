@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title ? $title . ' - ' . config('app.name', '') : config('app.name', 'title') }}</title>
+    <title>
+        {{ $title ? $title . ' - ' . str_replace('-', ' ', config('app.name')) : str_replace('-', ' ', config('app.name')) }}
+    </title>
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
@@ -27,9 +29,10 @@
             <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                 {{-- <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
                     alt="logo"> --}}
-                <div class="w-8 h-8 mr-3 text-center text-3xl">🥶</div>
+                {{-- <div class="w-8 h-8 mr-3 text-center text-3xl">🥶</div> --}}
 
-                {{ config('app.name') }}
+                {{ str_replace('-', ' ', config('app.name')) }}
+
             </a>
             {{ $slot }}
         </div>
