@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\User;
-use App\Models\Schedule;
 use App\Models\Attendance;
-use Illuminate\Support\Carbon;
+use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 // can check out
@@ -41,7 +41,7 @@ it('can check out', function () {
         $response
             ->assertRedirect(route('employee.attendance'))
             ->assertSessionHas('success');
-        Storage::disk('public')->assertExists('photos/' . $file->hashName());
+        Storage::disk('public')->assertExists('photos/'.$file->hashName());
         $attendance->refresh();
         expect($attendance->check_out_time->format('H:i'))->toBe($time->format('H:i'));
     });
@@ -73,12 +73,10 @@ it('cant check out if no check in', function () {
                 'photo' => $file,
             ]);
 
-
-
         $response
             ->assertRedirect(route('employee.attendance'))
             ->assertSessionHas('danger');
-        Storage::disk('public')->assertMissing('photos/' . $file->hashName());
+        Storage::disk('public')->assertMissing('photos/'.$file->hashName());
         $attendance = Attendance::where('user_id', $user->id)->latest()->first();
         expect($attendance)->toBeNull();
     });
@@ -102,7 +100,6 @@ it('cant check out if no schedule', function () {
                 'longitude' => 120.9842,
                 'photo' => UploadedFile::fake()->image('photo.jpg'),
             ]);
-
 
         $response
             ->assertRedirect(route('employee.attendance'))
@@ -145,7 +142,7 @@ it('cant check out if not within check out time', function () {
         $response
             ->assertRedirect(route('employee.attendance'))
             ->assertSessionHas('danger');
-        Storage::disk('public')->assertMissing('photos/' . $file->hashName());
+        Storage::disk('public')->assertMissing('photos/'.$file->hashName());
         $attendance->refresh();
         expect($attendance->check_out_time)->toBeNull();
     });
@@ -182,11 +179,10 @@ it('cant check out if not within radius', function () {
                 'photo' => $file,
             ]);
 
-
         $response
             ->assertRedirect(route('employee.attendance'))
             ->assertSessionHas('danger');
-        Storage::disk('public')->assertMissing('photos/' . $file->hashName());
+        Storage::disk('public')->assertMissing('photos/'.$file->hashName());
         $attendance->refresh();
         expect($attendance->check_out_time)->toBeNull();
     });
@@ -223,13 +219,11 @@ it('cant check out if already checked out', function () {
                 'photo' => $file,
             ]);
 
-
         $response
             ->assertRedirect(route('employee.attendance'))
             ->assertSessionHas('danger');
-        Storage::disk('public')->assertMissing('photos/' . $file->hashName());
+        Storage::disk('public')->assertMissing('photos/'.$file->hashName());
         $attendance->refresh();
         expect($attendance->check_out_time->format('H:i'))->toBe($time->format('H:i'));
     });
 });
-

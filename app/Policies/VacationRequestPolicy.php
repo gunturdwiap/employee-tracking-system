@@ -2,10 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Enums\UserRole;
+use App\Models\User;
 use App\Models\VacationRequest;
-use Illuminate\Auth\Access\Response;
 
 class VacationRequestPolicy
 {
@@ -38,7 +37,7 @@ class VacationRequestPolicy
      */
     public function update(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -46,7 +45,7 @@ class VacationRequestPolicy
      */
     public function delete(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -54,7 +53,7 @@ class VacationRequestPolicy
      */
     public function restore(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -62,7 +61,7 @@ class VacationRequestPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     public function updateStatus(User $user): bool

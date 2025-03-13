@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Attendance;
-use App\Models\User;
-use App\Models\Schedule;
 use App\Enums\AttendanceStatus;
+use App\Models\Attendance;
+use App\Models\Schedule;
+use App\Models\User;
 
 it('marks attendance as absent', function () {
     $user = User::factory()->create();

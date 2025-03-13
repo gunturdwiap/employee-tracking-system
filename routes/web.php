@@ -1,29 +1,28 @@
 <?php
 
-use App\Models\User;
 use App\Enums\UserRole;
-use App\Models\Schedule;
-use App\Models\Attendance;
-use Illuminate\Http\Request;
-use App\Models\VacationRequest;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\UpdateProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeAttendanceController;
+use App\Http\Controllers\EmployeeVacationRequestController;
+use App\Http\Controllers\GetAttendanceOverviewController;
+use App\Http\Controllers\GetAttendanceTrendsController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UpdatePasswordController;
+use App\Http\Controllers\UpdateProfileController;
+use App\Http\Controllers\UpdateVacationRequestController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacationRequestController;
 use App\Http\Controllers\VerifyAttendanceController;
-use App\Http\Controllers\EmployeeAttendanceController;
-use App\Http\Controllers\GetAttendanceTrendsController;
-use App\Http\Controllers\GetAttendanceOverviewController;
-use App\Http\Controllers\UpdateVacationRequestController;
-use App\Http\Controllers\EmployeeVacationRequestController;
-
+use App\Models\Attendance;
+use App\Models\Schedule;
+use App\Models\User;
+use App\Models\VacationRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 // Auth
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 // Admin & Verificator
 Route::middleware(['auth', 'can:access-admin-panel', 'verified'])->prefix('/admin')->group(function () {
@@ -134,7 +133,6 @@ Route::middleware(['auth', 'can:access-admin-panel', 'verified'])->prefix('/admi
     })->name('profile');
 });
 
-
 // Employee
 Route::middleware(['auth', 'can:access-employee-menu', 'verified'])
     ->group(function () {
@@ -151,8 +149,9 @@ Route::middleware(['auth', 'can:access-employee-menu', 'verified'])
             $schedules = Schedule::query()
                 ->where('user_id', $request->user()->id)
                 ->get();
+
             return view('employee.schedule', [
-                'schedules' => $schedules
+                'schedules' => $schedules,
             ]);
         })->name('employee.schedule');
 
@@ -163,7 +162,7 @@ Route::middleware(['auth', 'can:access-employee-menu', 'verified'])
 
         Route::get('/profile', function (Request $request) {
             return view('employee.profile', [
-                'user' => $request->user()
+                'user' => $request->user(),
             ]);
         })->name('employee.profile');
 

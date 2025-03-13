@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\User;
-use App\Models\Attendance;
-use Illuminate\Support\Carbon;
 use App\Enums\AttendanceStatus;
 use App\Enums\AttendanceVerificationStatus;
+use App\Models\Attendance;
+use App\Models\User;
+use Illuminate\Support\Carbon;
 
 test('to array', function () {
     $attendance = Attendance::factory()->create()->fresh();

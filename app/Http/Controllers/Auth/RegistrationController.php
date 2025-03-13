@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Hash;
-use App\Models\User;
 use App\Enums\UserRole;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 
 class RegistrationController extends Controller
@@ -23,14 +23,14 @@ class RegistrationController extends Controller
         $request->validate([
             'name' => ['required', 'max:255'],
             'email' => ['required', 'unique:users,email', 'email', 'max:255'],
-            'password' => ['required', 'confirmed', Password::default()]
+            'password' => ['required', 'confirmed', Password::default()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => UserRole::EMPLOYEE
+            'role' => UserRole::EMPLOYEE,
         ]);
 
         event(new Registered($user));

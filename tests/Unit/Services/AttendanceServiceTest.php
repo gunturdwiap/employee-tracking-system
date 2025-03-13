@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\User;
-use App\Models\Schedule;
 use App\Models\Attendance;
+use App\Models\Schedule;
+use App\Models\User;
 use App\Services\AttendanceService;
 
 beforeEach(function () {
-    $this->service = new AttendanceService();
+    $this->service = new AttendanceService;
 });
 
 test('user has schedule today', function () {
@@ -111,7 +111,7 @@ test('is not within radius', function () {
     $longitude = 120.9842;
     $radius = 100;
 
-    //more than 100 meters away
+    // more than 100 meters away
     $location = [
         'latitude' => 14.5995,
         'longitude' => 120.9832,

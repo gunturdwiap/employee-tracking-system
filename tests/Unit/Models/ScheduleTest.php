@@ -1,8 +1,8 @@
 <?php
 
 use App\Enums\Day;
-use App\Models\User;
 use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 
 test('to array', function () {

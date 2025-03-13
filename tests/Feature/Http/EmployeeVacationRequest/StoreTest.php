@@ -1,8 +1,8 @@
 <?php
 
+use App\Enums\UserRole;
 use App\Enums\VacationRequestStatus;
 use App\Models\User;
-use App\Enums\UserRole;
 use App\Models\VacationRequest;
 
 beforeEach(function () {
@@ -46,7 +46,7 @@ test('employee cant submit another vacation request with overlapping time', func
         'user_id' => $this->employee->id,
         'start' => now()->addDays(2)->format('Y-m-d'),
         'end' => now()->addDays(5)->format('Y-m-d'),
-        'status' => VacationRequestStatus::APPROVED
+        'status' => VacationRequestStatus::APPROVED,
     ]);
 
     $response = $this->actingAs($this->employee)
@@ -65,7 +65,7 @@ test('employee can submit another vacation request with overlapping time when th
         'user_id' => $this->employee->id,
         'start' => now()->addDays(2)->format('Y-m-d'),
         'end' => now()->addDays(5)->format('Y-m-d'),
-        'status' => VacationRequestStatus::REJECTED
+        'status' => VacationRequestStatus::REJECTED,
     ]);
 
     $response = $this->actingAs($this->employee)

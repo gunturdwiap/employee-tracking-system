@@ -1,8 +1,8 @@
 <?php
 
+use App\Enums\UserRole;
 use App\Enums\VacationRequestStatus;
 use App\Models\User;
-use App\Enums\UserRole;
 use App\Models\VacationRequest;
 
 beforeEach(function () {
@@ -19,7 +19,7 @@ it('can reject the vacation request', function () {
             'vacation-requests.update-status',
             ['vacation_request' => $this->dimas->vacationRequests()->first()->id]
         ), [
-            'status' => VacationRequestStatus::REJECTED->value
+            'status' => VacationRequestStatus::REJECTED->value,
         ]);
 
     $this->vacationRequest->refresh();
@@ -36,7 +36,7 @@ it('can approve the vacation request', function () {
             'vacation-requests.update-status',
             ['vacation_request' => $this->dimas->vacationRequests()->first()->id]
         ), [
-            'status' => VacationRequestStatus::APPROVED->value
+            'status' => VacationRequestStatus::APPROVED->value,
         ]);
 
     $this->vacationRequest->refresh();
@@ -53,7 +53,7 @@ it('cant update status as pending', function () {
             'vacation-requests.update-status',
             ['vacation_request' => $this->dimas->vacationRequests()->first()->id]
         ), [
-            'status' => VacationRequestStatus::PENDING->value
+            'status' => VacationRequestStatus::PENDING->value,
         ]);
 
     $this->vacationRequest->refresh();
@@ -69,7 +69,7 @@ it('cant update the status with invalid status', function () {
             'vacation-requests.update-status',
             ['vacation_request' => $this->dimas->vacationRequests()->first()->id]
         ), [
-            'status' => 'Hengker'
+            'status' => 'Hengker',
         ]);
 
     $this->vacationRequest->refresh();

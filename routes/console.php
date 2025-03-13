@@ -15,4 +15,3 @@ Schedule::command('app:update-absent-attendance')->everyTenSeconds();
 // Schedule::command('app:update-vacation-attendance')->daily();
 
 // Schedule::command('auth:clear-resets')->everyFifteenMinutes();
-

@@ -46,7 +46,7 @@ class UpdateVacationAttendance extends Command
                 ->where('day', now()->isoWeekday())
                 ->exists();
 
-            if (!$hasSchedule) {
+            if (! $hasSchedule) {
                 continue;
             }
 
@@ -62,6 +62,6 @@ class UpdateVacationAttendance extends Command
             );
         }
         $this->info('Attendance records updated for employees on vacation.');
-        $this->info(count($vacationRequests) . ' updated');
+        $this->info(count($vacationRequests).' updated');
     }
 }

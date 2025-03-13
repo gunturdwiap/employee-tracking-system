@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Schedule;
-use App\Models\Attendance;
 use App\Enums\AttendanceStatus;
-use Illuminate\Http\UploadedFile;
 use App\Enums\AttendanceVerificationStatus;
+use App\Models\Attendance;
+use App\Models\Schedule;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\ValidationException;
 
 class AttendanceService
@@ -18,15 +18,12 @@ class AttendanceService
     /**
      * Create a new class instance.
      */
-    public function __construct()
-    {
-
-    }
+    public function __construct() {}
 
     public function checkIn(User $user, Carbon $checkInTime, float $latitude, float $longitude, UploadedFile $photo)
     {
         $schedule = $this->hasScheduleToday($user);
-        if (!$schedule) {
+        if (! $schedule) {
             throw ValidationException::withMessages(['check_in_time' => 'No schedule found for today']);
         }
 
@@ -34,11 +31,11 @@ class AttendanceService
             throw ValidationException::withMessages(['check_in_time' => 'You have already checked in today.']);
         }
 
-        if (!$this->isWithinCheckInTime($schedule->work_start_time, $checkInTime)) {
+        if (! $this->isWithinCheckInTime($schedule->work_start_time, $checkInTime)) {
             throw ValidationException::withMessages(['check_in_time' => 'Invalid check in time']);
         }
 
-        if (!$this->isWithinRadius($latitude, $longitude, $schedule->latitude, $schedule->longitude, $schedule->radius)) {
+        if (! $this->isWithinRadius($latitude, $longitude, $schedule->latitude, $schedule->longitude, $schedule->radius)) {
             throw ValidationException::withMessages(['check_in_time' => 'Invalid check in location']);
         }
 
@@ -49,19 +46,19 @@ class AttendanceService
             'check_in_time' => $checkInTime->format('H:i'),
             'status' => AttendanceStatus::ON_TIME,
             'verification_status' => AttendanceVerificationStatus::PENDING,
-            'check_in_photo' => $path
+            'check_in_photo' => $path,
         ]);
     }
 
     public function checkOut(User $user, Carbon $checkOutTime, float $latitude, float $longitude, UploadedFile $photo)
     {
         $schedule = $this->hasScheduleToday($user);
-        if (!$schedule) {
+        if (! $schedule) {
             throw ValidationException::withMessages(['check_out_time' => 'No schedule found for today']);
         }
 
         $checkIn = $this->hasCheckedInToday($user);
-        if (!$checkIn) {
+        if (! $checkIn) {
             throw ValidationException::withMessages(['check_out_time' => 'Please check in first']);
         }
 
@@ -70,18 +67,19 @@ class AttendanceService
         }
 
         $checkOutTime = now();
-        if (!$this->isWithinCheckOutTime($schedule->work_end_time, $checkOutTime)) {
+        if (! $this->isWithinCheckOutTime($schedule->work_end_time, $checkOutTime)) {
             throw ValidationException::withMessages(['check_out_time' => 'Invalid check out time']);
         }
 
-        if (!$this->isWithinRadius($latitude, $longitude, $schedule->latitude, $schedule->longitude, $schedule->radius)) {
+        if (! $this->isWithinRadius($latitude, $longitude, $schedule->latitude, $schedule->longitude, $schedule->radius)) {
             throw ValidationException::withMessages(['check_out_time' => 'Invalid check out location']);
         }
 
         $path = $photo->store('photos', 'public');
+
         return $checkIn->update([
             'check_out_time' => $checkOutTime->format('H:i'),
-            'check_out_photo' => $path
+            'check_out_photo' => $path,
         ]);
     }
 
@@ -108,6 +106,7 @@ class AttendanceService
 
         return $checkInTime->between($startTimeBefore, $startTimeAfter);
     }
+
     public function hasCheckedOutToday(User $user)
     {
         return Attendance::query()

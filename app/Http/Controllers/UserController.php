@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Enums\UserRole;
+use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -31,13 +31,13 @@ class UserController extends Controller
         // Apply search filter
         if ($request->filled('s')) {
             $user->where(function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->s . '%')
-                    ->orWhere('email', 'like', '%' . $request->s . '%');
+                $query->where('name', 'like', '%'.$request->s.'%')
+                    ->orWhere('email', 'like', '%'.$request->s.'%');
             });
         }
 
         return view('users.index', [
-            'users' => $user->paginate(15)
+            'users' => $user->paginate(15),
         ]);
     }
 
@@ -58,7 +58,7 @@ class UserController extends Controller
             'name' => ['required', 'max:255'],
             'role' => ['required', Rule::enum(UserRole::class)],
             'email' => ['required', 'email', 'unique:users,email', 'max:255'],
-            'password' => ['required', 'confirmed', Password::default()]
+            'password' => ['required', 'confirmed', Password::default()],
         ]);
 
         User::create($attributes);
@@ -74,11 +74,11 @@ class UserController extends Controller
         $user = $user->load([
             'schedules' => function (Builder $query) {
                 $query->orderBy('day');
-            }
+            },
         ]);
 
         return view('users.show', [
-            'user' => $user
+            'user' => $user,
         ]);
     }
 

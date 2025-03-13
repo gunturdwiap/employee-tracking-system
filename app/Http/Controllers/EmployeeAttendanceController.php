@@ -3,16 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
-use Illuminate\Http\Request;
 use App\Services\AttendanceService;
 use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Http\Request;
 
 class EmployeeAttendanceController extends Controller
 {
-
-    public function __construct(protected AttendanceService $attendanceService)
-    {
-    }
+    public function __construct(protected AttendanceService $attendanceService) {}
 
     /**
      * Display a listing of the resource.
@@ -25,7 +22,7 @@ class EmployeeAttendanceController extends Controller
             'status' => ['nullable'],
             'verification_status' => ['nullable'],
             'from' => ['nullable', 'date:Y-m-d'],
-            'to' => ['nullable', 'date:Y-m-d']
+            'to' => ['nullable', 'date:Y-m-d'],
         ]);
 
         if ($request->filled('status')) {
@@ -44,7 +41,7 @@ class EmployeeAttendanceController extends Controller
         }
 
         return view('employee.attendance-history', [
-            'attendances' => $attendances->paginate(15)
+            'attendances' => $attendances->paginate(15),
         ]);
     }
 
@@ -54,7 +51,7 @@ class EmployeeAttendanceController extends Controller
     public function create()
     {
         return view('employee.attendance', [
-            'schedule' => $this->attendanceService->hasScheduleToday(request()->user())
+            'schedule' => $this->attendanceService->hasScheduleToday(request()->user()),
         ]);
     }
 
@@ -73,6 +70,7 @@ class EmployeeAttendanceController extends Controller
         } catch (\Exception $e) {
             return to_route('employee.attendance')->with('danger', $e->getMessage());
         }
+
         return to_route('employee.attendance')->with('success', 'Check in success');
     }
 
@@ -91,6 +89,7 @@ class EmployeeAttendanceController extends Controller
         } catch (\Exception $e) {
             return to_route('employee.attendance')->with('danger', $e->getMessage());
         }
+
         return to_route('employee.attendance')->with('success', 'Check out success');
     }
 }

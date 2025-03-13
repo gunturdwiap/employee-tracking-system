@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\Enums\UserRole;
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
