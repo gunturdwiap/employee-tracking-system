@@ -31,5 +31,3 @@ test('search', function () {
         ->assertDontSee('Khrisna')
         ->assertSee('Dimas');
 });
-
-

@@ -17,4 +17,3 @@ test('all cases values are iso weekdays', function () {
     expect(Day::SATURDAY->value)->toBe(6);
     expect(Day::SUNDAY->value)->toBe(7);
 });
-

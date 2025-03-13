@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
-use Illuminate\Http\Request;
-use App\Models\VacationRequest;
-use App\Enums\VacationRequestStatus;
 use App\Enums\AttendanceVerificationStatus;
+use App\Enums\VacationRequestStatus;
+use App\Models\Attendance;
+use App\Models\VacationRequest;
 use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -32,7 +32,7 @@ class DashboardController extends Controller
 
         if ($request->filled('s')) {
             $todaysAttendances->whereHas('user', function (Builder $query) use ($request) {
-                $query->where('name', 'like', '%' . $request->s . '%');
+                $query->where('name', 'like', '%'.$request->s.'%');
             });
         }
 

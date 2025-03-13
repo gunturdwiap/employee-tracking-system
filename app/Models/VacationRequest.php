@@ -18,7 +18,7 @@ class VacationRequest extends Model
         return [
             'start' => 'date:Y-m-d',
             'end' => 'date:Y-m-d',
-            'status' => VacationRequestStatus::class
+            'status' => VacationRequestStatus::class,
         ];
     }
 
@@ -26,5 +26,4 @@ class VacationRequest extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

@@ -1,8 +1,8 @@
 <?php
 
 use App\Enums\Day;
-use App\Models\User;
 use App\Enums\UserRole;
+use App\Models\User;
 
 test('update schedule', function () {
     $admin = User::factory()->create(['role' => UserRole::ADMIN]);

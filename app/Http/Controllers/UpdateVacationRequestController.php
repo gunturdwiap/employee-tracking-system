@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\VacationRequestStatus;
-use Illuminate\Http\Request;
 use App\Models\VacationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class UpdateVacationRequestController extends Controller
@@ -18,12 +18,12 @@ class UpdateVacationRequestController extends Controller
             'status' => [
                 'required',
                 Rule::enum(VacationRequestStatus::class)
-                    ->except(VacationRequestStatus::PENDING)
-            ]
+                    ->except(VacationRequestStatus::PENDING),
+            ],
         ]);
 
         $vacationRequest->update([
-            'status' => $request->status
+            'status' => $request->status,
         ]);
 
         return back()->with('success', 'Vacation request status updated');

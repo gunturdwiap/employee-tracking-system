@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\VacationRequest;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
-
+use Illuminate\Http\Request;
 
 class VacationRequestController extends Controller
 {
@@ -18,7 +17,7 @@ class VacationRequestController extends Controller
 
         $request->validate([
             'status' => ['nullable', 'array'],
-            's' => ['nullable', 'string']
+            's' => ['nullable', 'string'],
         ]);
 
         if ($request->filled('status')) {
@@ -27,12 +26,12 @@ class VacationRequestController extends Controller
 
         if ($request->filled('s')) {
             $vacationRequests->whereHas('user', function (Builder $query) use ($request) {
-                $query->where('name', 'LIKE', '%' . $request->s . '%');
+                $query->where('name', 'LIKE', '%'.$request->s.'%');
             });
         }
 
         return view('vacation-request.index', [
-            'vacationRequests' => $vacationRequests->paginate(15)
+            'vacationRequests' => $vacationRequests->paginate(15),
         ]);
     }
 

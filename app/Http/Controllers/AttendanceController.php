@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
@@ -20,12 +20,12 @@ class AttendanceController extends Controller
             's' => ['nullable'],
             'verification_status' => ['nullable'],
             'from' => ['nullable', 'date:Y-m-d'],
-            'to' => ['nullable', 'date:Y-m-d']
+            'to' => ['nullable', 'date:Y-m-d'],
         ]);
 
         if ($request->filled('s')) {
             $attendances->whereHas('user', function (Builder $query) use ($request) {
-                $query->where('name', 'like', '%' . $request->s . '%');
+                $query->where('name', 'like', '%'.$request->s.'%');
             });
         }
 
@@ -45,7 +45,7 @@ class AttendanceController extends Controller
         }
 
         return view('attendances.index', [
-            'attendances' => $attendances->paginate(15)
+            'attendances' => $attendances->paginate(15),
         ]);
     }
 
@@ -60,10 +60,7 @@ class AttendanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.

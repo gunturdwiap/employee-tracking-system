@@ -1,10 +1,10 @@
 <?php
 
+use App\Enums\AttendanceStatus;
+use App\Enums\VacationRequestStatus;
 use App\Models\Schedule;
 use App\Models\User;
-use App\Enums\AttendanceStatus;
 use App\Models\VacationRequest;
-use App\Enums\VacationRequestStatus;
 
 it('marks attendance as on vacation', function () {
     $user = User::factory()->create();
@@ -104,7 +104,6 @@ it('does not mark attendance as on vacation if user has no schedule today', func
         'status' => AttendanceStatus::VACATION,
     ]);
 });
-
 
 test('marks attendance that starts and ends on the same day', function () {
     $user = User::factory()->create();

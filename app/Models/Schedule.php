@@ -11,6 +11,7 @@ class Schedule extends Model
     use HasFactory;
 
     protected $guarded = [];
+
     protected function casts()
     {
         return [

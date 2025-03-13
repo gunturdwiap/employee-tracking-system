@@ -4,7 +4,6 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-
 it('can update user profile', function () {
     Storage::fake('public');
     $user = User::factory()->create()->fresh();
@@ -20,12 +19,12 @@ it('can update user profile', function () {
     $response->assertRedirect()
         ->assertSessionHas('success');
 
-    Storage::disk('public')->assertExists('profile/' . $file->hashName());
+    Storage::disk('public')->assertExists('profile/'.$file->hashName());
 
     $user->fresh();
     expect($user->name)->toBe('John Genshin')
         ->and($user->email)->toBe('john@genshin.com')
-        ->and($user->photo)->toBe('profile/' . $file->hashName());
+        ->and($user->photo)->toBe('profile/'.$file->hashName());
 });
 
 it('doesnt update the photo if not provided', function () {
@@ -50,13 +49,13 @@ it('doesnt update the photo if not provided', function () {
 test('user must verify email again if email is updated', function () {
     $user = User::factory()->create([
         'email_verified_at' => now(),
-        'email' => 'jojo@gmail.com'
+        'email' => 'jojo@gmail.com',
     ])->fresh();
 
     $response = $this->actingAs($user)
         ->put(route('update-profile'), [
             'name' => 'John Genshin',
-            'email' => 'johngenshin@gmail.com'
+            'email' => 'johngenshin@gmail.com',
         ]);
 
     $response->assertRedirect()
@@ -70,7 +69,7 @@ it('deletes old photo when new photo uploaded', function () {
     Storage::fake('public');
 
     $user = User::factory()->create([
-        'photo' => UploadedFile::fake()->image('avatar.jpg')->store('profile', 'public')
+        'photo' => UploadedFile::fake()->image('avatar.jpg')->store('profile', 'public'),
     ])->fresh();
     $oldPhoto = $user->photo;
     $file = UploadedFile::fake()->image('photo.jpg');
@@ -85,12 +84,9 @@ it('deletes old photo when new photo uploaded', function () {
     $response->assertRedirect()
         ->assertSessionHas('success');
 
-    Storage::disk('public')->assertExists('profile/' . $file->hashName());
+    Storage::disk('public')->assertExists('profile/'.$file->hashName());
     Storage::disk('public')->assertMissing($oldPhoto);
 
     $user->fresh();
-    expect($user->photo)->toBe('profile/' . $file->hashName());
+    expect($user->photo)->toBe('profile/'.$file->hashName());
 });
-
-
-

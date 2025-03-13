@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Auth\SessionController;
 use App\Models\User;
-use Illuminate\Support\Str;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Events\PasswordReset;
-use App\Http\Controllers\Auth\SessionController;
-use App\Http\Controllers\Auth\RegistrationController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 // LOGIN, REGISTER, LOGOUT
 Route::middleware('guest')->group(function () {
@@ -28,8 +28,6 @@ Route::delete('/logout', [SessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-
-
 // VERIFY EMAIL
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -46,8 +44,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('success', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-
 
 // RESET PASSWORD
 Route::get('/forgot-password', function () {
@@ -81,7 +77,7 @@ Route::post('/reset-password', function (Request $request) {
         $request->only('email', 'password', 'password_confirmation', 'token'),
         function (User $user, string $password) {
             $user->forceFill([
-                'password' => Hash::make($password)
+                'password' => Hash::make($password),
             ])->setRememberToken(Str::random(60));
 
             $user->save();

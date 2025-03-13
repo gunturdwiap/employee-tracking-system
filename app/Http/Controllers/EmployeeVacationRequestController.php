@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VacationRequestStatus;
 use App\Models\VacationRequest;
 use Illuminate\Http\Request;
-use App\Enums\VacationRequestStatus;
 
 class EmployeeVacationRequestController extends Controller
 {
@@ -25,7 +25,7 @@ class EmployeeVacationRequestController extends Controller
         }
 
         return view('employee.vacation-request-history', [
-            'vacationRequests' => $vacationRequests->paginate(15)
+            'vacationRequests' => $vacationRequests->paginate(15),
         ]);
     }
 
@@ -45,7 +45,7 @@ class EmployeeVacationRequestController extends Controller
         $attributes = $request->validate([
             'start' => ['required', 'date', 'after:today', 'before_or_equal:end'],
             'end' => ['required', 'date', 'after:today', 'after_or_equal:start'],
-            'reason' => ['nullable', 'max:255']
+            'reason' => ['nullable', 'max:255'],
         ]);
 
         // Check if the new vacation request overlaps with any existing approved vacation
@@ -71,7 +71,7 @@ class EmployeeVacationRequestController extends Controller
      */
     public function edit(string $id)
     {
-        //check if vacation request exist for the current user
+        // check if vacation request exist for the current user
 
         // return vacation request for the current user
     }
@@ -81,7 +81,7 @@ class EmployeeVacationRequestController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //check if vacation request exist for the current user
+        // check if vacation request exist for the current user
 
         // update
 
@@ -93,7 +93,7 @@ class EmployeeVacationRequestController extends Controller
      */
     public function destroy(string $id)
     {
-        //check if vacation request exist for the current user
+        // check if vacation request exist for the current user
 
         // check vacation request status, proceed if not yet approved
 

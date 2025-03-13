@@ -1,8 +1,7 @@
 <?php
 
-use App\Models\Attendance;
-use App\Models\User;
 use App\Enums\UserRole;
+use App\Models\User;
 
 it('can render the page', function () {
     $user = User::factory()->create(['role' => UserRole::EMPLOYEE]);

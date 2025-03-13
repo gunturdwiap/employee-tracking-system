@@ -2,10 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Enums\UserRole;
-use App\Models\Attendance;
-use Illuminate\Auth\Access\Response;
+use App\Models\User;
 
 class AttendancePolicy
 {
@@ -38,7 +36,7 @@ class AttendancePolicy
      */
     public function update(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -46,7 +44,7 @@ class AttendancePolicy
      */
     public function delete(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -54,7 +52,7 @@ class AttendancePolicy
      */
     public function restore(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -62,7 +60,7 @@ class AttendancePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     public function verify(User $user)

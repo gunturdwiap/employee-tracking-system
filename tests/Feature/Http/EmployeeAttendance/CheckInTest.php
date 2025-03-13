@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\User;
 use App\Enums\UserRole;
-use App\Models\Schedule;
 use App\Models\Attendance;
-use Illuminate\Support\Carbon;
+use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 it('can render the page', function () {
@@ -44,13 +44,13 @@ it('can check in', function () {
             ->assertSessionHasNoErrors()
             ->assertSessionMissing('danger')
             ->assertSessionHas('success');
-        Storage::disk('public')->assertExists('photos/' . $file->hashName());
+        Storage::disk('public')->assertExists('photos/'.$file->hashName());
         $attendance = Attendance::where('user_id', $employee->id)
             ->where('date', $time->format('Y-m-d'))
             ->first();
         expect($attendance->check_in_time->format('H:i'))->toBe(now()->format('H:i'))
             ->and($attendance->check_out_time)->toBeNull()
-            ->and($attendance->check_in_photo)->toBe('photos/' . $file->hashName());
+            ->and($attendance->check_in_photo)->toBe('photos/'.$file->hashName());
     });
 });
 
@@ -72,7 +72,7 @@ it('cant check in if no schedule', function () {
         $response->assertRedirect(route('employee.attendance'))
             ->assertSessionHas('danger')
             ->assertSessionMissing('success');
-        Storage::disk('public')->assertMissing('photos/' . $file->hashName());
+        Storage::disk('public')->assertMissing('photos/'.$file->hashName());
     });
 });
 
@@ -109,7 +109,7 @@ it('cant check in if already checked in', function () {
         $response->assertRedirect(route('employee.attendance'))
             ->assertSessionHas('danger')
             ->assertSessionMissing('success');
-        Storage::disk('public')->assertMissing('photos/' . $file->hashName());
+        Storage::disk('public')->assertMissing('photos/'.$file->hashName());
         $attendance->refresh();
         expect($attendance->check_in_time->format('H:i'))->toBe($time->format('H:i'));
     });
@@ -143,7 +143,7 @@ it('cant check in if not within check in time', function () {
         $response->assertRedirect(route('employee.attendance'))
             ->assertSessionHas('danger')
             ->assertSessionMissing('success');
-        Storage::disk('public')->assertMissing('photos/' . $file->hashName());
+        Storage::disk('public')->assertMissing('photos/'.$file->hashName());
         $attendance = Attendance::where('user_id', $employee->id)
             ->where('date', $time->format('Y-m-d'))
             ->first();
@@ -177,7 +177,7 @@ it('cant check in if not within radius', function () {
         $response->assertRedirect(route('employee.attendance'))
             ->assertSessionHas('danger')
             ->assertSessionMissing('success');
-        Storage::disk('public')->assertMissing('photos/' . $file->hashName());
+        Storage::disk('public')->assertMissing('photos/'.$file->hashName());
         $attendance = Attendance::where('user_id', $employee->id)
             ->where('date', $time->format('Y-m-d'))
             ->first();

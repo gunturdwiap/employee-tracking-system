@@ -1,9 +1,9 @@
 <?php
 
 use App\Enums\AttendanceVerificationStatus;
-use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\Attendance;
+use App\Models\User;
 
 beforeEach(function () {
     $this->user = User::factory()->create(['role' => UserRole::ADMIN])->fresh();
@@ -19,7 +19,7 @@ it('can reject the attendance', function () {
             'attendances.verify',
             ['attendance' => $this->dimas->attendances()->first()->id]
         ), [
-            'verification_status' => AttendanceVerificationStatus::REJECTED->value
+            'verification_status' => AttendanceVerificationStatus::REJECTED->value,
         ]);
 
     $this->attendance->refresh();
@@ -36,7 +36,7 @@ it('can approve the attendance', function () {
             'attendances.verify',
             ['attendance' => $this->dimas->attendances()->first()->id]
         ), [
-            'verification_status' => AttendanceVerificationStatus::APPROVED->value
+            'verification_status' => AttendanceVerificationStatus::APPROVED->value,
         ]);
 
     $this->attendance->refresh();
@@ -53,7 +53,7 @@ it('cant update status as pending', function () {
             'attendances.verify',
             ['attendance' => $this->dimas->attendances()->first()->id]
         ), [
-            'verification_status' => AttendanceVerificationStatus::PENDING->value
+            'verification_status' => AttendanceVerificationStatus::PENDING->value,
         ]);
 
     $this->attendance->refresh();
@@ -69,7 +69,7 @@ it('cant update the status with invalid status', function () {
             'attendances.verify',
             ['attendance' => $this->dimas->attendances()->first()->id]
         ), [
-            'verification_status' => 'Hengker'
+            'verification_status' => 'Hengker',
         ]);
 
     $this->attendance->refresh();

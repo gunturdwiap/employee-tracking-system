@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use App\Enums\AttendanceStatus;
 use App\Enums\AttendanceVerificationStatus;
-use App\Models\Schedule;
 use App\Models\Attendance;
+use App\Models\Schedule;
 use Illuminate\Console\Command;
 
 class UpdateAbsentAttendance extends Command
@@ -40,7 +40,7 @@ class UpdateAbsentAttendance extends Command
                 ->whereDate('date', $today)
                 ->exists();
 
-            if (!$hasCheckedIn) {
+            if (! $hasCheckedIn) {
                 Attendance::create([
                     'user_id' => $schedule->user_id,
                     'date' => $today,

@@ -24,7 +24,7 @@ class ScheduleFactory extends Factory
             'latitude' => -8.79883,
             'longitude' => 115.161343,
             'radius' => rand(100, 500),
-            'user_id' => User::factory()
+            'user_id' => User::factory(),
         ];
     }
 }

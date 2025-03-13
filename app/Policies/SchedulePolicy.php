@@ -2,10 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\Schedule;
-use Illuminate\Auth\Access\Response;
+use App\Models\User;
 
 class SchedulePolicy
 {
@@ -14,7 +13,7 @@ class SchedulePolicy
      */
     public function viewAny(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -30,7 +29,7 @@ class SchedulePolicy
      */
     public function create(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -38,7 +37,7 @@ class SchedulePolicy
      */
     public function update(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -46,7 +45,7 @@ class SchedulePolicy
      */
     public function delete(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -54,7 +53,7 @@ class SchedulePolicy
      */
     public function restore(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 
     /**
@@ -62,6 +61,6 @@ class SchedulePolicy
      */
     public function forceDelete(User $user): bool
     {
-        return ($user->role === UserRole::ADMIN);
+        return $user->role === UserRole::ADMIN;
     }
 }

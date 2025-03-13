@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Support\Carbon;
-use App\Models\VacationRequest;
 use App\Enums\VacationRequestStatus;
+use App\Models\User;
+use App\Models\VacationRequest;
+use Illuminate\Support\Carbon;
 
 test('to array', function () {
     $vacationRequest = VacationRequest::factory()->create()->fresh();
@@ -44,5 +44,3 @@ it('belongs to a user', function () {
 
     expect($vacationRequest->user)->toBeInstanceOf(User::class);
 });
-
-

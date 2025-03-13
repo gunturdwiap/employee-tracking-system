@@ -15,12 +15,12 @@ class VerifyAttendanceController extends Controller
             'verification_status' => [
                 'required',
                 Rule::enum(AttendanceVerificationStatus::class)
-                    ->except(AttendanceVerificationStatus::PENDING)
-            ]
+                    ->except(AttendanceVerificationStatus::PENDING),
+            ],
         ]);
 
         $attendance->update([
-            'verification_status' => $request->verification_status
+            'verification_status' => $request->verification_status,
         ]);
 
         return back()->with('success', 'Attendance verification status updated');

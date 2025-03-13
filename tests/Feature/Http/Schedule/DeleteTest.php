@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\Schedule;
+use App\Models\User;
 
 test('delete schedule', function () {
     $admin = User::factory()->create(['role' => UserRole::ADMIN]);
@@ -18,5 +18,3 @@ test('delete schedule', function () {
 
     expect(Schedule::find($schedule->id))->toBeNull();
 });
-
-

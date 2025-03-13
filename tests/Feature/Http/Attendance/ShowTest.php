@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\Attendance;
+use App\Models\User;
 
 beforeEach(function () {
     $this->user = User::factory()->create(['role' => UserRole::ADMIN])->fresh();

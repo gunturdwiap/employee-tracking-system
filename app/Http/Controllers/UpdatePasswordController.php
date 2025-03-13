@@ -19,7 +19,7 @@ class UpdatePasswordController extends Controller
             'new_password' => ['required', 'confirmed', Password::default()],
         ]);
 
-        if (!Hash::check($request->password, $request->user()->password)) {
+        if (! Hash::check($request->password, $request->user()->password)) {
             throw ValidationException::withMessages(['password' => 'Invalid password']);
         }
 

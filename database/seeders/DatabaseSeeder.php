@@ -21,19 +21,19 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@admin.admin',
-            'role' => UserRole::ADMIN
+            'role' => UserRole::ADMIN,
         ]);
 
         User::factory()->create([
             'name' => 'verificator',
             'email' => 'verificator@verificator.verificator',
-            'role' => UserRole::VERIFICATOR
+            'role' => UserRole::VERIFICATOR,
         ]);
 
         $orang = User::factory()->create([
             'name' => 'Louise Juventus Payong Bali Arakian',
             'email' => 'user@user.user',
-            'role' => UserRole::EMPLOYEE
+            'role' => UserRole::EMPLOYEE,
         ]);
 
         $users = collect(User::factory(10)->create())->add($orang);
@@ -53,7 +53,6 @@ class DatabaseSeeder extends Seeder
                 'start' => now()->subDay()->toDateString(), // 'Y-m-d' format
                 'end' => now()->addDays(5)->toDateString(),  // 3 hours wasted cause sqlite ...
             ]);
-
 
             // Create random attendance records for each user
             // Attendance::factory(rand(0, 30))->create([

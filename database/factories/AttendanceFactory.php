@@ -25,7 +25,7 @@ class AttendanceFactory extends Factory
             'check_out_time' => now()->addHours(8),
             'status' => rand(0, 1) === 1 ? AttendanceStatus::LATE : AttendanceStatus::ON_TIME,
             'verification_status' => AttendanceVerificationStatus::PENDING,
-            'user_id' => User::factory()
+            'user_id' => User::factory(),
         ];
     }
 }

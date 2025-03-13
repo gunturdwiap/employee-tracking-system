@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Day;
-use Carbon\Carbon;
-use App\Models\User;
 use App\Enums\UserRole;
 use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
 class ScheduleController extends Controller
 {
@@ -25,13 +23,12 @@ class ScheduleController extends Controller
             's' => ['nullable', 'string'],
         ]);
 
-
         if ($request->filled('s')) {
-            $employees->where('name', 'like', '%' . $request->s . '%');
+            $employees->where('name', 'like', '%'.$request->s.'%');
         }
 
         return view('schedules.index', [
-            'employees' => $employees->paginate(5)
+            'employees' => $employees->paginate(5),
         ]);
     }
 
@@ -59,7 +56,7 @@ class ScheduleController extends Controller
                 Rule::unique('schedules')->where(function ($query) use ($request, $user) {
                     return $query->where('user_id', $user->id)
                         ->where('day', $request->day);
-                })
+                }),
             ],
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
@@ -87,7 +84,7 @@ class ScheduleController extends Controller
     public function edit(User $user, Schedule $schedule)
     {
         return view('schedules.edit', [
-            'schedule' => $schedule->load('user')
+            'schedule' => $schedule->load('user'),
         ]);
     }
 
@@ -105,7 +102,7 @@ class ScheduleController extends Controller
                 Rule::unique('schedules')->where(function ($query) use ($request, $user) {
                     return $query->where('user_id', $user->id)
                         ->where('day', $request->day);
-                })->ignore($schedule->id)
+                })->ignore($schedule->id),
             ],
             'latitude' => ['required', 'numeric'],
             'longitude' => ['required', 'numeric'],
